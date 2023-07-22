@@ -1,0 +1,20 @@
+{
+  "name": "cineplus",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Julio Rivas",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
+  "eslintConfig": {
+    "extends": "estandard"
+  },
+  "description": ""
+}
