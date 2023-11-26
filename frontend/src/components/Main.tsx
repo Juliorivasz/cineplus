@@ -5,20 +5,20 @@ import Movies from './Movies';
 export default function Main() {
 
   const [visible, setVisible] = useState(true);
+  
 
-  const toggleVisible = (state: boolean) => {
-    setVisible(state);
+  const toggleVisible = () => {
+    setVisible((prevVisible) => !prevVisible);
   }
 
   return (
     <>
     <main>
-        <Home
-          visible={visible}
-          toggleVisible={toggleVisible}/>
-        <Movies
-          visible={!visible} />
-    </main>
+        {visible && (
+          <Home visible={visible} toggleVisible={toggleVisible}/>
+        )}
+        {!visible && <Movies/>}
+      </main>
     </>
   )
 }

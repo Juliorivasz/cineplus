@@ -2,25 +2,11 @@
     width: 100%;
     display: flex;
     justify-content: space-evenly;
-    transition: all .5s;
-}
+    transition: opacity 500ms;
+  }
+  
+  
+  
+  
 
-.view-enter {
-    opacity: 0;
-}
   
-.view-enter-active {
-    opacity: 0;
-    transition-delay: 1s;
-    transition: opacity 500ms;
-}
-  
-.view-exit {
-    opacity: 0;
-}
-  
-.view-exit-active {
-    opacity: 0;
-    transition-delay: .1s;
-    transition: opacity 500ms;
-}
