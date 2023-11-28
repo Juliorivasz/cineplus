@@ -2,10 +2,14 @@
 export default function Header() {
   return (
     <>
-      <header className="">
+      <header>
         <nav className="navbar navbar-dark bg-dark fixed-top">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">CinePlus+</a>
+            <a className="navbar-brand" href="./Home.tsx">CinePlus+</a>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
+              <button className="btn btn-success" type="submit">Buscar</button>
+            </form>
             <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -17,29 +21,25 @@ export default function Header() {
               <div className="offcanvas-body">
                 <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">Home</a>
+                    <a className="nav-link active" aria-current="page" href="#">Inicio</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="#">Link</a>
+                    <a className="nav-link" href="#">Soporte</a>
                   </li>
                   <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded={false}>
-                      Dropdown
+                      Tipo de contenido
                     </a>
                     <ul className="dropdown-menu dropdown-menu-dark">
-                      <li><a className="dropdown-item" href="#">Action</a></li>
-                      <li><a className="dropdown-item" href="#">Another action</a></li>
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
-                      <li><a className="dropdown-item" href="#">Something else here</a></li>
+                      <li><a className="dropdown-item" href="#">Peliculas</a></li>
+                      <li><a className="dropdown-item" href="#">Series</a></li>
+                      <li><a className="dropdown-item" href="#">Anime</a></li>
                     </ul>
                   </li>
                 </ul>
-                <form className="d-flex mt-3" role="search">
-                  <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                  <button className="btn btn-success" type="submit">Search</button>
-                </form>
+                <div className="mt-3">
+                  <button className="btn btn-success" >Admin</button>
+                </div>
               </div>
             </div>
           </div>
