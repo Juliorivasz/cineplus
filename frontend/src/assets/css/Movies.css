@@ -1,8 +1,45 @@
+.title__estreno {
+  padding-top: 1rem;
+}
+
 .movies {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     transition: opacity 500ms;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+  }
+
+  .filter__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: .5rem;
+    width: 100%;
+  }
+
+  .genero__container,.year__container {
+    margin: 0 .5em;
+    display: flex;
+    align-items: center;
+  }
+
+  label {
+    margin: 0 .5em;
+  }
+
+  /* pagination de movies */
+  .pagination__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 1rem;
+  }
+
+  ul {
+    margin: 0;
   }
   
   

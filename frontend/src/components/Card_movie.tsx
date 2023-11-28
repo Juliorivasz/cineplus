@@ -1,3 +1,4 @@
+import '../assets/css/card_movie.css';
 interface CardProps {
     img?: string;
     title?: string;
