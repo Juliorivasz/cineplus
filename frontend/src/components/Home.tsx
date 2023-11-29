@@ -2,19 +2,18 @@ import '../assets/css/home.css';
 import { useRef } from 'react';
 
 interface homeProps {
-  visible: boolean;
-  toggleVisible: () => void;
+  toggleNavigate: () => void;
 }
 
-export default function Home({visible, toggleVisible}:homeProps) {
+export default function Home({toggleNavigate}:homeProps) {
 
   const homeRef = useRef(null);
   return (
     <>
-      <section className="home" ref={homeRef} style={{ opacity: visible ? 1 : 0 }}>
+      <section className="home" ref={homeRef} >
           <h1 className="home__title">Bienvenido a CinePlus+</h1>
           <h3 className="home__slogan">“¡Tus películas favoritas y más, todo en un solo lugar!”</h3>
-          <button className="btn btn-dark home__btn" onClick={toggleVisible}>
+          <button className="btn btn-dark home__btn" onClick={toggleNavigate}>
                   Ver Peliculas
           </button>
       </section>
