@@ -1,19 +1,41 @@
+import { Link } from "react-router-dom"
 
+interface paginationProps {
+    sizeContent: number;
+    currentPage: number;
+    handlePage: (number:number)=>void;
+}
 
-export const Pagination = () => {
+export const Pagination = ({sizeContent, currentPage, handlePage}:paginationProps) => {
+
+    let paginationAmount = sizeContent; 
+    if(paginationAmount && sizeContent > 12) {
+        paginationAmount = Math.ceil(paginationAmount / 12);
+    }
+
+    const paginationBuild = [];
+
+    for(let i = 1; i <= paginationAmount; i++){
+        if(currentPage == i) {
+            paginationBuild.push(
+                <li key={i} className="page-item active"><Link className="page-link" to={""} onClick={(e) => {e.preventDefault(); handlePage(i)}}>{i}</Link></li>
+            )
+        }else {
+            paginationBuild.push(
+                <li key={i} className="page-item"><Link className="page-link" to={""} onClick={(e) => {e.preventDefault(); handlePage(i)}}>{i}</Link></li>
+            )
+        }
+    }
+
   return (
     <nav className="pagination__container"  aria-label="...">
         <ul className="pagination">
-            <li className="page-item disabled">
-                <a className="page-link">Previous</a>
+            <li className={`page-item ${currentPage == 1 ? 'disabled' : ''}`}>
+                <Link className="page-link" to={''} onClick={(e) => {e.preventDefault(); handlePage(currentPage-1)}}>Previous</Link>
             </li>
-            <li className="page-item active"><a className="page-link" href="#">1</a></li>
-            <li className="page-item" aria-current="page">
-                <a className="page-link" href="#">2</a>
-            </li>
-            <li className="page-item"><a className="page-link" href="#">3</a></li>
+            {paginationBuild}
             <li className="page-item">
-                <a className="page-link" href="#">Next</a>
+                <Link className={`page-link ${currentPage == paginationAmount ? 'disabled' : ''}`} to={''} onClick={(e) => {e.preventDefault(); handlePage(currentPage+1)}}>Next</Link>
             </li>
         </ul>
     </nav>

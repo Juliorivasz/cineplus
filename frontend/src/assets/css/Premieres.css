@@ -1,8 +1,8 @@
-.title__estreno {
-  padding-top: 1rem;
+.title__premiere {
+  padding: 3rem 0 1rem 0;
 }
 
-.movies {
+.premieres {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
