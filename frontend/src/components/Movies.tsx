@@ -1,4 +1,4 @@
-import '../assets/css/Premieres.css';
+import '../assets/css/contents.css';
 import { useState } from 'react';
 import { FilterFind } from './FilterFind';
 import { Pagination } from './Pagination';
@@ -15,8 +15,8 @@ export const Movies = () => {
     <>
     <main>
     <FilterFind/>
-    <p className="title__premiere h1">Peliculas</p>
-    <section className='premieres'>
+    <p className="title__content h1">Peliculas</p>
+    <section className='contents'>
       <Card_movie 
         img='https://es.web.img2.acsta.net/pictures/19/03/26/17/22/0896830.jpg'
         title='Avengers: End Game'
@@ -54,7 +54,7 @@ export const Movies = () => {
       />
       <Card_movie />
     </section>
-    <Pagination sizeContent={50} currentPage={currentPage} handlePage={handlePage}/>
+    <Pagination sizeContent={30} currentPage={currentPage} handlePage={handlePage}/>
     </main>
     </>
   )
