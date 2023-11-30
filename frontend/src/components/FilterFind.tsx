@@ -1,21 +1,14 @@
-import { Link, useLocation } from "react-router-dom"
-import { useState, useEffect} from 'react';
+import { Link } from "react-router-dom";
+import { useRoute } from "../hooks/useRoute";
 
 export const FilterFind = () => {
-    // nombre de la ruta sin la barra /
-    const stateContent = useLocation().pathname.replace('/', '');
-    // estado inicial de la ruta
-    const [contentState, setContentState] = useState('/');
-    // renderizada de nuevo si el nombre de la ruta cambia
-    useEffect(() => {
-        setContentState(stateContent)
-    }, [stateContent])
+    const contentState = useRoute();    
   return (
         <nav className="nav nav-underline justify-content-center">
-            <Link className={`nav-link ${contentState=='estrenos' ? 'active' : ''}` } to={"/estrenos"}>Inicio</Link>
-            <Link className={`nav-link ${contentState=='movies' ? 'active' : ''}` } to={"/movies"}>Peliculas</Link>
-            <Link className={`nav-link ${contentState=='series' ? 'active' : ''}` } to={"/series"}>Series</Link>
-            <Link className={`nav-link ${contentState=='anime' ? 'active' : ''}`} to={"/anime"}>Anime</Link>
+            <Link className={`nav-link ${contentState=='/estrenos' ? 'active' : ''}` } to={"/estrenos"}>Inicio</Link>
+            <Link className={`nav-link ${contentState=='/movies' ? 'active' : ''}` } to={"/movies"}>Peliculas</Link>
+            <Link className={`nav-link ${contentState=='/series' ? 'active' : ''}` } to={"/series"}>Series</Link>
+            <Link className={`nav-link ${contentState=='/anime' ? 'active' : ''}`} to={"/anime"}>Anime</Link>
             <div className="genero__container">
             <label>Género:</label>
             <select className="form-select" aria-label="Default select example">

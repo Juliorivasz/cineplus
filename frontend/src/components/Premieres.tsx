@@ -1,15 +1,22 @@
-import '../assets/css/Movies.css';
+import '../assets/css/Premieres.css';
 import Card_movie from './Card_movie';
 import { FilterFind } from './FilterFind';
 import { Pagination } from './Pagination';
+import { useState } from 'react';
 
-export default function Estrenos() {
+export default function Premieres() {
+  const [currentPage, setcurrentPage] = useState(1);
+
+  const handlePage = (newCurrentPage:number) => {
+    setcurrentPage(newCurrentPage);
+  }
+
   return (
     <>
     <main>
     <FilterFind />
-      <p className="title__estreno h1">Ultimos estrenos</p>
-      <section className="movies">
+      <p className="title__premiere h1">Ultimos estrenos</p>
+      <section className="premieres">
           <Card_movie />
           <Card_movie 
           img='https://es.web.img2.acsta.net/pictures/19/03/26/17/22/0896830.jpg'
@@ -21,8 +28,9 @@ export default function Estrenos() {
           <Card_movie />
           <Card_movie />
           <Card_movie />
+          <Card_movie />
       </section>
-      <Pagination/>
+      <Pagination sizeContent={50} currentPage={currentPage} handlePage={handlePage}/>
     </main>
     </>
   )
