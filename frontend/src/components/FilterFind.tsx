@@ -5,10 +5,10 @@ export const FilterFind = () => {
     const contentState = useRoute();    
   return (
         <nav className="nav nav-underline justify-content-center">
-            <Link className={`nav-link ${contentState=='/estrenos' ? 'active' : ''}` } to={"/estrenos"}>Inicio</Link>
-            <Link className={`nav-link ${contentState=='/movies' ? 'active' : ''}` } to={"/movies"}>Peliculas</Link>
-            <Link className={`nav-link ${contentState=='/series' ? 'active' : ''}` } to={"/series"}>Series</Link>
-            <Link className={`nav-link ${contentState=='/anime' ? 'active' : ''}`} to={"/anime"}>Anime</Link>
+            <Link className={`nav-link ${contentState=='/estrenos' ? 'active disabled' : ''}` } to={"/estrenos"}>Inicio</Link>
+            <Link className={`nav-link ${contentState=='/movies' ? 'active disabled' : ''}` } to={"/movies"}>Peliculas</Link>
+            <Link className={`nav-link ${contentState=='/series' ? 'active disabled' : ''}` } to={"/series"}>Series</Link>
+            <Link className={`nav-link ${contentState=='/anime' ? 'active disabled' : ''}`} to={"/anime"}>Anime</Link>
             <div className="genero__container">
             <label>Género:</label>
             <select className="form-select" aria-label="Default select example">
