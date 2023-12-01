@@ -9,6 +9,7 @@ export const Anime = () => {
   const handlePage = (newCurrentPage:number) => {
     setcurrentPage(newCurrentPage);
   }
+  
   return (
     <>
     <main>

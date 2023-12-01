@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom';
 import '../assets/css/card_movie.css';
 interface CardProps {
-    img?: string;
-    title?: string;
-    añoN?: string;
+  id?: number;
+  img?: string;
+  title?: string;
+  añoN?: string;
 }
 
 const routeImg = 'https://es.web.img3.acsta.net/pictures/15/12/04/10/48/099822.jpg'
-export default function Card_movie({img=routeImg,title='DeadPool',añoN='2020'}:CardProps) {
+export default function Card_movie({id, img=routeImg,title='DeadPool',añoN='2020'}:CardProps) {
   return (
     <>
     <div className="card" style={{width: '18rem', padding: '1rem'}}>
@@ -14,7 +16,7 @@ export default function Card_movie({img=routeImg,title='DeadPool',añoN='2020'}:
         <div className="card-body">
             <h5 className="card-title">{title}</h5>
             <p className="card-text">{añoN}</p>
-            <a href="#" className="btn btn-dark">Ver mas</a>
+            <Link to={`/movie?${id}`} className="btn btn-dark">Ver mas</Link>
         </div>
     </div>
     </>

@@ -4,6 +4,7 @@ import Premieres from './Premieres';
 import { Movies } from './Movies';
 import { Anime } from './Anime';
 import { Series } from './Series';
+import { Movie } from './Movie';
 
 
 export default function Main() {
@@ -21,6 +22,7 @@ export default function Main() {
       <Route path={'/movies'} element={<Movies />}></Route>
       <Route path={'/series'} element={<Series />}></Route>
       <Route path={'/anime'} element={<Anime />}></Route>
+      <Route path={'/movie'} element={<Movie />}></Route>
       <Route path={'/contactos'} element={<Premieres />}></Route>
     </Routes>
     </>
