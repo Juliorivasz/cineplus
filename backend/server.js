@@ -1,7 +1,7 @@
 // server.js
 const dotenvConfig = require("./config/dotenv");
 const mongoose = require("./config/db");
-const app = require("./index.js");
+const app = require("./app.js");
 
 // Puedes agregar más configuraciones aquí
 

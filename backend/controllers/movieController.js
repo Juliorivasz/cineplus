@@ -14,10 +14,10 @@ module.exports = {
 
   addMovie: async (req, res, next) => {
     try {
-      const { title, releaseYear } = req.body;
+      const { title, year } = req.body;
 
       // Verifica si se proporcionaron los campos necesarios
-      if (!title || !releaseYear) {
+      if (!title || !year) {
         return res
           .status(400)
           .json({ error: "Se requieren título y año de lanzamiento" });
@@ -26,7 +26,7 @@ module.exports = {
       // Crea una nueva película en la base de datos
       const newMovie = await Movie.create({
         title,
-        releaseYear,
+        year,
       });
 
       res.json(newMovie);

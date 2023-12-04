@@ -1,7 +1,7 @@
-// models/Movie.js
+// models/premiers
 const mongoose = require("mongoose");
 
-const movieSchema = new mongoose.Schema({
+const seriesSchema = new mongoose.Schema({
   title: {
     type: String,
     requerid: true,
@@ -40,6 +40,6 @@ const movieSchema = new mongoose.Schema({
   },
 });
 
-const Movie = mongoose.model("movies", movieSchema);
+const Series = mongoose.model("series", seriesSchema);
 
-module.exports = Movie;
+module.exports = Series;

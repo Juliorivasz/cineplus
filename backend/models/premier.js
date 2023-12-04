@@ -24,11 +24,19 @@ const premiersSchema = new mongoose.Schema({
   },
   cast: {
     type: String,
-    requerid: true,
+    requerid: false,
   },
   duration: {
     type: Number,
     requerid: true,
+  },
+  playback: {
+    type: Object,
+    required: true,
+  },
+  trailer: {
+    type: String,
+    requerid: false,
   },
 });
 
