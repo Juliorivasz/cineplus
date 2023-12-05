@@ -11,7 +11,7 @@ const premiersSchema = new mongoose.Schema({
     requerid: true,
   },
   year: {
-    type: Number,
+    type: String,
     requerid: true,
   },
   gender: {
@@ -24,10 +24,10 @@ const premiersSchema = new mongoose.Schema({
   },
   cast: {
     type: String,
-    requerid: false,
+    requerid: true,
   },
   duration: {
-    type: Number,
+    type: String,
     requerid: true,
   },
   playback: {
@@ -36,7 +36,7 @@ const premiersSchema = new mongoose.Schema({
   },
   trailer: {
     type: String,
-    requerid: false,
+    requerid: true,
   },
 });
 

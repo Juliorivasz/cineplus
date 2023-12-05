@@ -7,4 +7,5 @@ const router = express.Router();
 router.get("/", premiersController.getPremiers);
 router.post("/add", premierController.addPremier);
 router.delete("/remove", premierController.removePremier);
+router.patch("/update", premierController.updatePremier);
 module.exports = router;
