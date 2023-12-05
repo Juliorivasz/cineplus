@@ -9,7 +9,15 @@ module.exports = {
       const idPremier = req.query.id;
       // Si se proporciona un ID, devuelve la información específica
       if (idPremier) {
-        const premier = premiers.find((item) => item.id === idPremier);
+        const premier = premiers.find((item) => {
+          if (
+            item._id === idPremier ||
+            item.gender === idPremier ||
+            item.year.toString() === idPremier
+          ) {
+            return item;
+          }
+        });
         if (premier) {
           res.json(premier);
         } else {
@@ -21,7 +29,7 @@ module.exports = {
       }
     } catch (error) {
       console.log(error);
-      next(error);
+      res.status(500).json({ message: "Error en el servidor." });
     }
   },
   addPremier: async (req, res, next) => {
@@ -38,6 +46,9 @@ module.exports = {
         playback,
         trailer,
       } = req.body;
+
+      // agrega la ruta de la imagen a su campo
+      const imagePath = req.file ? req.file.path : null;
 
       // valida que ningun campo este vacio
       if (
@@ -57,9 +68,9 @@ module.exports = {
       }
 
       // guarda el estreno en la BD
-      const newPremier = Premier.create({
+      const newPremier = await Premier.create({
         title,
-        image,
+        image: imagePath,
         year,
         gender,
         synopsis,
@@ -69,10 +80,13 @@ module.exports = {
         trailer,
       });
 
+      await newPremier.save();
+
       // envia el estreno
-      res.status(200).json(newPremier);
+      res.status(201).json(newPremier);
     } catch (error) {
       console.log(error);
+      res.status(500).json({ message: "Error en el servidor." });
     }
   },
 
@@ -101,6 +115,71 @@ module.exports = {
       res.status(200).json({ message: "Estreno eliminado exitosamente" });
     } catch (error) {
       console.log(error);
+      res.status(500).json({ message: "Error en el servidor." });
+    }
+  },
+  updatePremier: async (req, res) => {
+    try {
+      // id pasado por query
+      const { id } = req.query;
+      const idUpdatePremier = {
+        _id: id,
+      };
+
+      // desestructura los datos recibidos
+      const {
+        title,
+        image,
+        year,
+        gender,
+        synopsis,
+        cast,
+        duration,
+        playback,
+        trailer,
+      } = req.body;
+
+      // agrega la ruta de la imagen a su campo
+      const imagePath = req.file ? req.file.path : undefined;
+
+      // objeto que contiene todos los datos recibidos
+      const updatedFields = {
+        title,
+        image: imagePath,
+        year,
+        gender,
+        synopsis,
+        cast,
+        duration,
+        playback,
+        trailer,
+      };
+
+      // Filtra los campos para eliminar los indefinidos o vacíos
+      const filteredFields = Object.fromEntries(
+        Object.entries(updatedFields).filter(
+          ([key, value]) => value !== undefined && value !== ""
+        )
+      );
+
+      // valida que haya al menos un campo para actualizar
+      if (Object.keys(filteredFields).length === 0) {
+        return res
+          .status(400)
+          .json({ message: "Ningún campo para actualizar" });
+      }
+      // actualiza el documento
+      const premierUpdated = await Premier.updateOne(idUpdatePremier, {
+        $set: filteredFields,
+      });
+
+      // devuelve una respuesta ok
+      res
+        .status(200)
+        .json({ message: "actualizado correctamente", state: true });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error en el servidor." });
     }
   },
 };
