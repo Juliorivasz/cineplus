@@ -34,7 +34,10 @@ module.exports = {
 
         sesionActive.save();
         // las contraseñas coinciden el admin puede iniciar sesion
-        res.status(200).json({ token, name: admin.name });
+        res
+          .status(201)
+          .cookie("token", token, { httpOnly: true, secure: true });
+        res.status(201).json({ token, name: admin.name });
       } else {
         // las contraseñas no coinciden el inicio falla
         res.status(401).json({ error: "credenciales invalidas" });
@@ -126,10 +129,14 @@ module.exports = {
       const { email, newPassword } = req.body;
       const admin = await User.findOne({ email: email });
 
+      if (!admin) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
       const resetToken = jwt.sign(
-        { userId: admin._id },
+        { userId: admin._id, used: false },
         process.env.JWT_SECRET,
-        { expiresIn: "15m" }
+        { expiresIn: "5m" }
       );
 
       sendResetEmail(email, resetToken);
@@ -158,7 +165,7 @@ module.exports = {
       }
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
-      admin.updateOne(
+      const passwordRecovered = await admin.updateOne(
         { _id: decodedToken.userId },
         { password: hashedPassword }
       );
@@ -166,6 +173,11 @@ module.exports = {
       // 4. Responder con un mensaje de éxito
       res.status(200).json({ message: "Contraseña restablecida con éxito" });
     } catch (error) {
+      if (error.name == "TokenExpiredError") {
+        console.log("Token expirado. Por favor, solicita un nuevo token.");
+        // Puedes enviar una respuesta adecuada al cliente, por ejemplo, un código de error 401 (No autorizado)
+        return res.status(401).json({ error: "Token expirado" });
+      }
       console.error(error);
       res.status(500).json({ error: "Error interno del servidor" });
     }

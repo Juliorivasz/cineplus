@@ -16,7 +16,7 @@ function sendResetEmail(email, token) {
     from: "julioandresrivas@gmail.com",
     to: email,
     subject: "Restablecimiento de Contraseña",
-    html: `<p>Para restablecer tu contraseña, haz clic en el siguiente enlace: <a href="${process.env.CLIENT_URL}/admin/recoveryPassword/${token}">${process.env.CLIENT_URL}/admin/recoveryPassword/${token}</a></p>`,
+    html: `<p>Para restablecer tu contraseña, haz clic en el siguiente enlace: <a href="${process.env.CLIENT_URL}/admin/recoveryPassword/${token}">recuperar contraseña</a></p>`,
   };
 
   // Envía el correo electrónico
@@ -28,5 +28,4 @@ function sendResetEmail(email, token) {
     }
   });
 }
-
 module.exports = { sendResetEmail };
