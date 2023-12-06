@@ -6,7 +6,7 @@ const userRoutes = require("./userRoutes");
 const router = express.Router();
 
 // ruta padre
-router.use("/login", userRoutes);
+router.use("/admin", userRoutes);
 router.use("/movie", movieRoutes);
 router.use("/premier", premierRoutes);
 
