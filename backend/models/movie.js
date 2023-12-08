@@ -11,7 +11,7 @@ const movieSchema = new mongoose.Schema({
     requerid: true,
   },
   year: {
-    type: Number,
+    type: String,
     requerid: true,
   },
   gender: {
@@ -27,7 +27,7 @@ const movieSchema = new mongoose.Schema({
     requerid: false,
   },
   duration: {
-    type: Number,
+    type: String,
     requerid: true,
   },
   playback: {

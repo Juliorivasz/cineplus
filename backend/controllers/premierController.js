@@ -6,14 +6,14 @@ module.exports = {
     try {
       const premiers = await Premier.find();
 
-      const idPremier = req.query.id;
+      const queryPremier = req.query.id;
       // Si se proporciona un ID, devuelve la información específica
-      if (idPremier) {
+      if (queryPremier) {
         const premier = premiers.find((item) => {
           if (
-            item._id === idPremier ||
-            item.gender === idPremier ||
-            item.year.toString() === idPremier
+            item._id === queryPremier ||
+            item.gender === queryPremier ||
+            item.year.toString() === queryPremier
           ) {
             return item;
           }
@@ -21,7 +21,7 @@ module.exports = {
         if (premier) {
           res.json(premier);
         } else {
-          res.status(404).send("Premier no encontrada");
+          res.status(404).send("Estreno no encontrado");
         }
       } else {
         // Si no se proporciona un ID, devuelve toda la lista
@@ -34,6 +34,19 @@ module.exports = {
   },
   addPremier: async (req, res, next) => {
     try {
+      // Utiliz una promesa para manejar el middleware
+      const multerPromise = new Promise((resolve, reject) => {
+        upload.single("image")(req, res, function (err) {
+          if (err) {
+            reject(err); // Rechazamos la promesa con el error
+          } else {
+            resolve(); // Resolvemos la promesa si no hay error
+          }
+        });
+      });
+
+      // Espera la resolución de la promesa antes de continuar
+      await multerPromise;
       // desestructura los datos recibidos
       const {
         title,
@@ -94,15 +107,15 @@ module.exports = {
   removePremier: async (req, res, next) => {
     try {
       // guarda el id en la variable
-      const { idPremier } = req.body;
+      const { queryPremier } = req.body;
 
       // valida que el campo no este vacio
-      if (!idPremier) {
+      if (!queryPremier) {
         return res.status(400).json({ message: "el campo id es requerido" });
       }
 
       // busca y elimina el documento por su ID
-      const result = await Premier.findOneAndDelete(idPremier);
+      const result = await Premier.findOneAndDelete(queryPremier);
 
       // valida si no encontro el documento
       if (!result) {
@@ -114,7 +127,12 @@ module.exports = {
       // respuesta del documento eliminado
       res.status(200).json({ message: "Estreno eliminado exitosamente" });
     } catch (error) {
-      console.log(error);
+      // Verifica si es un error del middleware y lo maneja
+      if (error.message === "El archivo ya existe. No se permite la carga.") {
+        return res.status(400).json({ message: error.message });
+      }
+
+      console.error(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
   },
