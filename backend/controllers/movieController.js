@@ -6,7 +6,7 @@ module.exports = {
   getAllMovies: async (req, res, next) => {
     try {
       const movies = await Movie.find();
-
+      const moviesLength = movies.length;
       const queryMovie = req.query.id;
       // Si se proporciona un ID, devuelve la información específica
       if (queryMovie) {
@@ -26,7 +26,7 @@ module.exports = {
         }
       } else {
         // Si no se proporciona un ID, devuelve toda la lista
-        res.json(movies);
+        res.json({ moviesLength, movies });
       }
     } catch (error) {
       console.log(error);

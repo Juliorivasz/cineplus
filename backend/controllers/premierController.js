@@ -5,7 +5,7 @@ module.exports = {
   getPremiers: async (req, res, next) => {
     try {
       const premiers = await Premier.find();
-
+      const premiersLength = premiers.length;
       const queryPremier = req.query.id;
       // Si se proporciona un ID, devuelve la información específica
       if (queryPremier) {
@@ -25,7 +25,7 @@ module.exports = {
         }
       } else {
         // Si no se proporciona un ID, devuelve toda la lista
-        res.json(premiers);
+        res.json({ premiersLength, premiers });
       }
     } catch (error) {
       console.log(error);

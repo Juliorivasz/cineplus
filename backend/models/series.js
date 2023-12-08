@@ -4,31 +4,31 @@ const mongoose = require("mongoose");
 const seriesSchema = new mongoose.Schema({
   title: {
     type: String,
-    requerid: true,
+    required: true,
   },
   image: {
     type: String,
-    requerid: true,
+    required: true,
   },
   year: {
     type: Number,
-    requerid: true,
+    required: true,
   },
   gender: {
     type: String,
-    requerid: true,
+    required: true,
   },
   synopsis: {
     type: String,
-    requerid: true,
+    required: true,
   },
   cast: {
     type: String,
-    requerid: false,
+    required: false,
   },
   duration: {
     type: Number,
-    requerid: true,
+    required: true,
   },
   playback: {
     type: Object,
@@ -36,7 +36,11 @@ const seriesSchema = new mongoose.Schema({
   },
   trailer: {
     type: String,
-    requerid: false,
+    required: false,
+  },
+  typeContent: {
+    type: String,
+    required: true,
   },
 });
 
