@@ -4,7 +4,8 @@ const movieController = require("../controllers/movieController");
 const router = express.Router();
 
 router.get("/", movieController.getAllMovies);
-router.post("/admin/addMovie", movieController.addMovie);
-// Puedes agregar más rutas según sea necesario
+router.post("/add", movieController.addMovie);
+router.post("/remove", movieController.removeMovie);
+router.post("/update", movieController.updateMovie);
 
 module.exports = router;
