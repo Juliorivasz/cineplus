@@ -62,6 +62,7 @@ module.exports = {
         duration,
         playback,
         trailer,
+        typeContent,
       } = req.body;
 
       // agrega la ruta de la imagen a su campo
@@ -77,7 +78,8 @@ module.exports = {
         !cast ||
         !duration ||
         !playback ||
-        !trailer
+        !trailer ||
+        !typeContent
       ) {
         return res
           .status(400)
@@ -95,6 +97,7 @@ module.exports = {
         duration,
         playback,
         trailer,
+        typeContent,
       });
       // envia el estreno
       res.status(201).json(newMovie);
@@ -161,6 +164,7 @@ module.exports = {
         duration,
         playback,
         trailer,
+        typeContent,
       } = req.body;
 
       // agrega la ruta de la imagen a su campo
@@ -177,6 +181,7 @@ module.exports = {
         duration,
         playback,
         trailer,
+        typeContent,
       };
 
       // Filtra los campos para eliminar los indefinidos o vacíos

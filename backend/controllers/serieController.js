@@ -1,38 +1,41 @@
-const Premier = require("../models/premier");
+// controllers/SeriesController.js
+const upload = require("../middleware/multerMiddleware");
+const Series = require("../models/series");
 
 module.exports = {
-  // obtiene los estrenos
-  getPremiers: async (req, res, next) => {
+  getAllSeries: async (req, res, next) => {
     try {
-      const premiers = await Premier.find();
-      const premiersLength = premiers.length;
-      const queryPremier = req.query.id;
+      const series = await Series.find();
+      const seriesLength = series.length;
+      const querySeries = req.query.id;
       // Si se proporciona un ID, devuelve la información específica
-      if (queryPremier) {
-        const premier = premiers.find((item) => {
+      if (querySeries) {
+        const serie = series.find((item) => {
           if (
-            item._id === queryPremier ||
-            item.gender === queryPremier ||
-            item.year.toString() === queryPremier
+            item._id.toString() === querySeries ||
+            item.gender === querySeries ||
+            item.year === querySeries
           ) {
             return item;
           }
         });
-        if (premier) {
-          res.json(premier);
+        if (serie) {
+          res.json(serie);
         } else {
-          res.status(404).send("Estreno no encontrado");
+          res.status(404).send("Pelicula no encontrada");
         }
       } else {
         // Si no se proporciona un ID, devuelve toda la lista
-        res.json({ premiersLength, premiers });
+        res.json({ seriesLength, series });
       }
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
   },
-  addPremier: async (req, res, next) => {
+
+  // agrega pelicula
+  addSeries: async (req, res) => {
     try {
       // Utiliz una promesa para manejar el middleware
       const multerPromise = new Promise((resolve, reject) => {
@@ -47,6 +50,7 @@ module.exports = {
 
       // Espera la resolución de la promesa antes de continuar
       await multerPromise;
+
       // desestructura los datos recibidos
       const {
         title,
@@ -67,7 +71,7 @@ module.exports = {
       // valida que ningun campo este vacio
       if (
         !title ||
-        !image ||
+        !imagePath ||
         !year ||
         !gender ||
         !synopsis ||
@@ -83,7 +87,7 @@ module.exports = {
       }
 
       // guarda el estreno en la BD
-      const newPremier = await Premier.create({
+      const newSeries = await Series.create({
         title,
         image: imagePath,
         year,
@@ -95,40 +99,8 @@ module.exports = {
         trailer,
         typeContent,
       });
-
-      await newPremier.save();
-
       // envia el estreno
-      res.status(201).json(newPremier);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Error en el servidor." });
-    }
-  },
-
-  // elimina el estreno
-  removePremier: async (req, res, next) => {
-    try {
-      // guarda el id en la variable
-      const { queryPremier } = req.body;
-
-      // valida que el campo no este vacio
-      if (!queryPremier) {
-        return res.status(400).json({ message: "el campo id es requerido" });
-      }
-
-      // busca y elimina el documento por su ID
-      const result = await Premier.findOneAndDelete(queryPremier);
-
-      // valida si no encontro el documento
-      if (!result) {
-        return res.status(404).json({
-          message: "No se encontró el estreno con el ID proporcionado",
-        });
-      }
-
-      // respuesta del documento eliminado
-      res.status(200).json({ message: "Estreno eliminado exitosamente" });
+      res.status(201).json(newSeries);
     } catch (error) {
       // Verifica si es un error del middleware y lo maneja
       if (error.message === "El archivo ya existe. No se permite la carga.") {
@@ -139,11 +111,45 @@ module.exports = {
       res.status(500).json({ message: "Error en el servidor." });
     }
   },
-  updatePremier: async (req, res) => {
+  // elimina pelicula
+  removeSeries: async (req, res, next) => {
+    try {
+      // guarda el id en la variable
+      const { idSeries } = req.body;
+
+      // valida que el campo no este vacio
+      if (!idSeries) {
+        return res.status(400).json({ message: "el campo id es requerido" });
+      }
+
+      // busca y elimina el documento por su ID
+      const result = await Series.findOneAndDelete(idSeries);
+
+      // valida si no encontro el documento
+      if (!result) {
+        return res.status(404).json({
+          message: "No se encontró la pelicula con el ID proporcionado",
+        });
+      }
+
+      // respuesta del documento eliminado
+      res.status(200).json({ message: "Pelicula eliminado exitosamente" });
+    } catch (error) {
+      // Verifica si es un error del middleware y lo maneja
+      if (error.message === "El archivo ya existe. No se permite la carga.") {
+        return res.status(400).json({ message: error.message });
+      }
+
+      console.error(error);
+      res.status(500).json({ message: "Error en el servidor." });
+    }
+  },
+  // actualiza o modifica pelicula
+  updateSeries: async (req, res) => {
     try {
       // id pasado por query
       const { id } = req.query;
-      const idUpdatePremier = {
+      const idUpdateSeries = {
         _id: id,
       };
 
@@ -192,7 +198,7 @@ module.exports = {
           .json({ message: "Ningún campo para actualizar" });
       }
       // actualiza el documento
-      const premierUpdated = await Premier.updateOne(idUpdatePremier, {
+      const SeriesUpdated = await Series.updateOne(idUpdateSeries, {
         $set: filteredFields,
       });
 
