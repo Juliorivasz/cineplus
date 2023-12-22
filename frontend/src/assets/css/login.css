@@ -1,0 +1,44 @@
+.container__form {
+    display: flex;
+    background-color: gray;
+    text-align: start;
+    justify-content: space-between;
+    align-items: center;
+    height: 500px;
+    width: 100%;
+    padding: 2rem;
+    padding-left: 0;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 25px;
+    overflow: hidden;
+}
+
+.image__login {
+    display: flex;
+    height: 500px;
+    width: 750px;
+}
+
+.image__login img {
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+.login__form {
+    width: 33%;
+}
+
+.form-label, .form-check-label {
+    font-weight: 600;
+    color: #000;
+}
+
+.viewPassword {
+    position: absolute;
+    top: 45%;
+    right: 5%;
+    cursor: pointer;
+    font-size: 1.5rem;
+}

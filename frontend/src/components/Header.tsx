@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -5,7 +6,7 @@ export default function Header() {
       <header>
         <nav className="navbar navbar-dark bg-dark fixed-top">
           <div className="container-fluid">
-            <a className="navbar-brand" href="/">CinePlus+</a>
+            <Link className="navbar-brand" to="/">CinePlus+</Link>
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
               <button className="btn btn-success" type="submit">Buscar</button>
@@ -21,24 +22,24 @@ export default function Header() {
               <div className="offcanvas-body">
                 <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="/estrenos">Inicio</a>
+                    <Link className="nav-link active" aria-current="page" to="/estrenos">Inicio</Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/contactos">Soporte</a>
+                    <Link className="nav-link" to="/contactos">Soporte</Link>
                   </li>
                   <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded={false}>
                       Tipo de contenido
                     </a>
                     <ul className="dropdown-menu dropdown-menu-dark">
-                      <li><a className="dropdown-item" href="/movies">Peliculas</a></li>
-                      <li><a className="dropdown-item" href="/series">Series</a></li>
-                      <li><a className="dropdown-item" href="/anime">Anime</a></li>
+                      <li><Link className="dropdown-item" to="/movies">Peliculas</Link></li>
+                      <li><Link className="dropdown-item" to="/series">Series</Link></li>
+                      <li><Link className="dropdown-item" to="/anime">Anime</Link></li>
                     </ul>
                   </li>
                 </ul>
                 <div className="mt-3">
-                  <button className="btn btn-success" >Admin</button>
+                  <Link to={"/admin"}><button className="btn btn-success">Admin</button></Link>
                 </div>
               </div>
             </div>

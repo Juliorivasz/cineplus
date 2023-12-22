@@ -13,17 +13,16 @@ export default function Main() {
   const toggleNavigate = () => {
     navigate("/estrenos");
   }
-
   return (
     <>
     <Routes>
-      <Route path={'/'} element={<Home toggleNavigate={toggleNavigate}/>}></Route>
-      <Route path={'/estrenos'} element={<Premieres />}></Route>
-      <Route path={'/movies'} element={<Movies />}></Route>
-      <Route path={'/series'} element={<Series />}></Route>
-      <Route path={'/anime'} element={<Anime />}></Route>
-      <Route path={'/movie'} element={<Movie />}></Route>
-      <Route path={'/contactos'} element={<Premieres />}></Route>
+      <Route index element={<Home toggleNavigate={toggleNavigate}/>}></Route>
+      <Route path={'estrenos'} element={<Premieres />}></Route>
+      <Route path={'movies'} element={<Movies />}></Route>
+      <Route path={'series'} element={<Series />}></Route>
+      <Route path={'anime'} element={<Anime />}></Route>
+      <Route path={'movie'} element={<Movie />}></Route>
+      <Route path={'contactos'} element={<Premieres />}></Route>
     </Routes>
     </>
   )
