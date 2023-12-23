@@ -6,6 +6,15 @@ const Session = require("../models/sesion");
 const { sendResetEmail } = require("../utils/sendEmail");
 
 module.exports = {
+  authenticated: async (req, res) => {
+    try {
+      const isAuthenticated = req.headers.cookie ? true : false;
+      res.status(200).json({ isAuthenticated });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error interno del servidor" });
+    }
+  },
   // iniciar sesion
   loginUser: async (req, res, next) => {
     try {
@@ -34,9 +43,11 @@ module.exports = {
 
         sesionActive.save();
         // las contraseñas coinciden el admin puede iniciar sesion
-        res
-          .status(201)
-          .cookie("token", token, { httpOnly: true, secure: true });
+        res.status(201).cookie("token", token, {
+          sameSite: "None",
+          httpOnly: true,
+          secure: true,
+        });
         res.status(201).json({ token, name: admin.name });
       } else {
         // las contraseñas no coinciden el inicio falla

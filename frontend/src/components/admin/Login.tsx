@@ -19,14 +19,14 @@ export const Login = () => {
   }
   
   // peticion para logear
-  const {login} = useAuthentication();
+  const {login, isAuthenticated} = useAuthentication();
   
   // envio del formulario
   const loginAccount = async (event:React.FormEvent<HTMLDivElement>) => {
     event.preventDefault();
     await login(email, password);
+    navigate('/admin/home')
     localStorage.setItem('rememberS', JSON.stringify(checkMe))
-    navigate(`/admin/home`);
   }
 
   // checkbox
@@ -36,11 +36,12 @@ export const Login = () => {
 
   useEffect(() => {
     const session = localStorage.getItem('rememberS');
-    const stored = JSON.parse(session || '');
-    if (stored) {
+    const stored = JSON.parse(session ?? 'null');
+    if (stored && isAuthenticated) {
       setCheckMe(stored);
+      navigate('/admin/home')
     }
-  }, []);
+  }, [isAuthenticated,navigate]);
 
   return (
     <>

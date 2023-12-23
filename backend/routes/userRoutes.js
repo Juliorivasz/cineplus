@@ -4,6 +4,7 @@ const userRoutes = require("../controllers/userController");
 const router = express.Router();
 
 router.post("/login", userRoutes.loginUser);
+router.get("/login", userRoutes.authenticated);
 router.post("/renew-token", userRoutes.renewToken);
 router.post("/modifyPassword", userRoutes.modifyPassword);
 router.post("/recoveryPassword", userRoutes.recoveryPassword);
