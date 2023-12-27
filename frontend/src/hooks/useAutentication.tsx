@@ -3,29 +3,18 @@ import { useEffect, useState } from "react";
 // useAuthentication.ts
 const useAuthentication = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminBtn, setAdminBtn] = useState('admin');
+
   useEffect( () => {
     const sesion = localStorage.getItem('authToken')
     if(sesion){
       setIsAuthenticated(true);
+      setAdminBtn('Sign off')
     }else {
       setIsAuthenticated(false);
+      setAdminBtn('admin')
     }
-  },[])
-
-  const isLoggedIn = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/admin/login`, {
-        credentials: 'include'
-      });
-      const data = await response.json();
-
-      if(response.ok) {
-        return data;
-      }
-    } catch (error) {
-      console.error(`error al solicitar la autenticacion: ${error}`);
-    }
-  };
+  },[adminBtn])
 
   const login = async (email: string, password: string) => {
     try {
@@ -55,10 +44,11 @@ const useAuthentication = () => {
 
   const logout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('rememberS');
     return;
   };
 
-  return { isAuthenticated, isLoggedIn, login, logout,setIsAuthenticated };
+  return { isAuthenticated, login, logout, adminBtn };
 };
 
 export default useAuthentication;

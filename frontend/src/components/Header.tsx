@@ -1,6 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthentication from "../hooks/useAutentication";
+// import { useState } from 'react';
 
 export default function Header() {
+  const {isAuthenticated, logout, adminBtn} = useAuthentication();
+  
+  const navigate = useNavigate();
+  
+  const logouted = async () => {
+    await logout();
+    location.href = '/admin';
+  }
+
+  const logIn = () => {
+    navigate('/admin')
+  }
+
   return (
     <>
       <header>
@@ -39,7 +54,7 @@ export default function Header() {
                   </li>
                 </ul>
                 <div className="mt-3">
-                  <Link to={"/admin"}><button className="btn btn-success">Admin</button></Link>
+                  <button className="btn btn-success" onClick={isAuthenticated ? logouted : logIn}>{adminBtn}</button>
                 </div>
               </div>
             </div>

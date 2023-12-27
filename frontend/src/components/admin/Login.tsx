@@ -22,11 +22,13 @@ export const Login = () => {
   const {login, isAuthenticated} = useAuthentication();
   
   // envio del formulario
-  const loginAccount = async (event:React.FormEvent<HTMLDivElement>) => {
+  const loginAccount = async (event:React.FormEvent) => {
     event.preventDefault();
-    await login(email, password);
-    navigate('/admin/home')
-    localStorage.setItem('rememberS', JSON.stringify(checkMe))
+    const loggedIn = await login(email, password);
+    if(loggedIn) {
+      location.href = '/admin/home';
+      localStorage.setItem('rememberS', JSON.stringify(checkMe))
+    }
   }
 
   // checkbox
@@ -37,20 +39,20 @@ export const Login = () => {
   useEffect(() => {
     const session = localStorage.getItem('rememberS');
     const stored = JSON.parse(session ?? 'null');
-    if (stored && isAuthenticated) {
+    if (stored || isAuthenticated) {
       setCheckMe(stored);
-      navigate('/admin/home')
+      location.href = '/admin/home'
     }
   }, [isAuthenticated,navigate]);
 
   return (
     <>
     <main>
-      <div className="container__form" onSubmit={loginAccount}>
+      <div className="container__form">
         <div className="image__login">
           <img src="https://dnm.nflximg.net/api/v6/BvVbc2Wxr2w6QuoANoSpJKEIWjQ/AAAAQZTSzc0fBuje232kABFZdaSaNc7r7P_4ct7x9P7LNjCoW4Q87i4n6pJy4czOJ6h2YmvMT2u6d-l59DXyVF4f5gJCVp_McGeaiEG84Y-SOKUmg9pV99DnDu5tNFxe7M4pqDLBOyniE9O2M-mrNfhpKZR4.jpg?r=a3d" alt="estreno" />
         </div>
-        <form className="login__form">
+        <form className="login__form" onSubmit={loginAccount}>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">Email:</label>
             <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e) => setEmail(e.target.value)}/>
@@ -66,7 +68,7 @@ export const Login = () => {
             <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
           </div>
           <button type="submit" className="btn btn-primary">Login</button>
-          <Link to={"/recoveryPassword"} style={{display: "flex", marginTop: "1rem", width: "fit-content", color: "black"}}>Did you forget your password ?</Link>
+          <Link to={"recoveryPassword"} style={{display: "flex", marginTop: "1rem", width: "fit-content", color: "black"}}>Did you forget your password ?</Link>
         </form>
       </div>
     </main>
