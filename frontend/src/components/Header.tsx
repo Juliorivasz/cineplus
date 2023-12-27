@@ -37,7 +37,7 @@ export default function Header() {
               <div className="offcanvas-body">
                 <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                   <li className="nav-item">
-                    <Link className="nav-link active" aria-current="page" to="/estrenos">Inicio</Link>
+                    <Link className="nav-link active" aria-current="page" to={isAuthenticated ? "/admin/home" : "/"}>Inicio</Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/contactos">Soporte</Link>
@@ -47,9 +47,10 @@ export default function Header() {
                       Tipo de contenido
                     </a>
                     <ul className="dropdown-menu dropdown-menu-dark">
-                      <li><Link className="dropdown-item" to="/movies">Peliculas</Link></li>
-                      <li><Link className="dropdown-item" to="/series">Series</Link></li>
-                      <li><Link className="dropdown-item" to="/anime">Anime</Link></li>
+                      <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/premiers" : "/estrenos"}>Estrenos</Link></li>
+                      <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/movies" : "/movies"}>Peliculas</Link></li>
+                      <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/series" :"/series"}>Series</Link></li>
+                      <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/animes" :"/anime"}>Anime</Link></li>
                     </ul>
                   </li>
                 </ul>
