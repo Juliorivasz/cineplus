@@ -32,10 +32,11 @@ const useAuthentication = () => {
       // Verifica la respuesta del backend y actualiza el estado de isLoggedIn
       if (response.ok) {
         localStorage.setItem('authToken', data.token);
-        return data;
+        return true;
       } else {
         // Maneja el caso de autenticación fallida (puedes mostrar un mensaje de error, etc.)
         console.error('Error de autenticación:', data.error);
+        return data.error;
       }
     } catch (error) {
       console.error('Error al realizar la solicitud:', error);
