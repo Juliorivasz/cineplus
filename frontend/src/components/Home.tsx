@@ -1,11 +1,23 @@
 import '../assets/css/home.css';
-import { useRef } from 'react';
+import { useRef,useEffect } from 'react';
+import useVisit from '../hooks/useVisit';
 
 interface homeProps {
   toggleNavigate: () => void;
 }
 
 export default function Home({toggleNavigate}:homeProps) {
+
+  const { saveVisit } = useVisit();
+
+  useEffect( () => {
+    // Incrementar el contador al montar el componente
+    const addVisit = async () => {
+      const visit = await saveVisit();
+      console.log(visit)
+    };
+    addVisit();
+  }, []);
 
   const homeRef = useRef(null);
   return (
