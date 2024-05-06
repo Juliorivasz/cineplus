@@ -67,13 +67,13 @@ export const Login = () => {
         </div>
         <form className="login__form" onSubmit={loginAccount}>
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">Email:</label>
-            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e) => setEmail(e.target.value)}/>
+            <label htmlFor="loginEmail" className="form-label">Email:</label>
+            <input type="email" className="form-control" id="loginEmail" aria-describedby="emailHelp" onChange={(e) => setEmail(e.target.value)}/>
             <span id="emailHelp" className="form-text" style={{display: "none"}}>We'll never share your email with anyone else.</span>
           </div>
           <div className="mb-3 position-relative">
-            <label htmlFor="exampleInputPassword1" className="form-label">Password:</label>
-            <input type={seePassword ? "password" : "text" } className="form-control" id="exampleInputPassword1" onChange={(e) => setPassword(e.target.value)}/>
+            <label htmlFor="loginPassword" className="form-label">Password:</label>
+            <input type={seePassword ? "password" : "text" } className="form-control" id="loginPassword" onChange={(e) => setPassword(e.target.value)}/>
             {seePassword ? <i className="bi bi-eye-slash viewPassword" onClick={handleSeePassword}></i> : <i className="bi bi-eye viewPassword" onClick={handleSeePassword}></i>}
           </div>
           <div className="mb-3 form-check">

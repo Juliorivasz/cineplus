@@ -9,9 +9,15 @@ import { PasswordRecovered } from "./PasswordRecovered";
 import { AdminMovies } from "./AdminMovies";
 import { AdminSeries } from "./AdminSeries";
 import { AdminAnimes } from "./AdminAnimes";
+import { Add } from "./actions/Add";
+import { Remove } from "./actions/Remove";
+import { Update } from "./actions/Update";
 
 export const AdminRoutes = () => {
   const { isAuthenticated } = useAuthentication();
+
+  // nombre de la ubicacion del contenido
+  const ubi = location.pathname.split("/")[2];
   
   return (
     <Routes>
@@ -20,6 +26,9 @@ export const AdminRoutes = () => {
         <Route index element={<AdminHome />} />
         <Route path="home" element={<AdminHome/>}/>
         <Route path="premiers" element={<AdminPremiers/>}/>
+        <Route path={`${ubi}/add`} element={<Add typeContent={ubi}/>}/>
+        <Route path={`${ubi}/remove`} element={<Remove/>}/>
+        <Route path={`${ubi}/update`} element={<Update/>}/>
         <Route path="movies" element={<AdminMovies/>}/>
         <Route path="series" element={<AdminSeries/>}/>
         <Route path="animes" element={<AdminAnimes/>}/>
