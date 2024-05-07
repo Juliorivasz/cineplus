@@ -1,5 +1,5 @@
-import { EventType } from "firebase/database";
-import { FormEventHandler, useState } from "react";
+import { EventType, set } from "firebase/database";
+import React, { FormEventHandler, useState } from "react";
 import { Form } from "react-router-dom";
 
 
@@ -32,17 +32,82 @@ interface TypeContent {
 export const Add = ({typeContent}:TypeContent) => {
 
 
-  const [formData, setFormData] = useState(new FormData());
+  // const [initialState, setInitialState] = useState(initialData);
+  // const [title, setTitle] = useState('');
+  // const [image, setImage] = useState(null);
+  // const [year, setYear] = useState('');
+  // const [gender, setGender] = useState('');
+  // const [synopsis, setSynopsis] = useState('');
+  // const [cast, setCast] = useState('');
+  // const [duration, setDuration] = useState('');
+  // const [playback, setPlayback] = useState('');
+  const [formValues, setFormValues] = useState<{
+    title: "",
+    image: File | null,
+    year: "",
+    gender: "",
+    synopsis: "",
+    cast: "",
+    duration: "",
+    playback: string
+  }>({
+    title: "",
+    image: null,
+    year: "",
+    gender: "",
+    synopsis: "",
+    cast: "",
+    duration: "",
+    playback: dataDefault
+  });
 
 
-  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    formData.append(event.target.name, event.target.value)
+  const handleInputChange = (event:React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => {
+    const { name, value, files } = event.target;
+
+    if (name === 'image') {
+      const selectedImage = files?.[0] || null;
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        [name]: selectedImage,
+      }));
+    } else {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    }
   };
 
-
-  const sendData = (e:React.FormEvent) => {
+  const sendData = async (e:React.FormEvent) => {
       e.preventDefault();
-      
+      const {title,image,year,gender,synopsis,cast,duration,playback} = formValues;
+      const formData = new FormData();
+      formData.append("title",title);
+      if (image != null) formData.append("image", image);
+      formData.append("year", year);
+      formData.append("gender", gender);
+      formData.append("synopsis", synopsis);
+      formData.append("cast", cast);
+      formData.append("duration", duration);
+      formData.append("playback", playback);
+
+
+      try {
+        const response = await fetch(`http://localhost:3000/${typeContent}/add`,{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          body: formData,
+        });
+
+        const result = await response;
+        if (result.ok) console.log(result)
+        
+      } catch (error) {
+        console.log(`Error en la solicitud: ${error}`)
+      }
     }
 
   return (
@@ -108,8 +173,7 @@ export const Add = ({typeContent}:TypeContent) => {
 
           </div>
           <div className="mb-3">
-            <button type="button" className="btn btn-outline-dark m-3" id="send">Enviar</button>
-            <button type="button" className="btn btn-outline-danger m-3" id="Delete">Borrar</button>
+            <button type="submit" className="btn btn-outline-dark m-3" id="send">Enviar</button>
           </div>
         </form>
       </div>

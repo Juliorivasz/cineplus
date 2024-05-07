@@ -25,13 +25,13 @@ export const AdminRoutes = () => {
       <Route path="/*" element={<PrivateRoute isAuthenticated={isAuthenticated}/>}>
         <Route index element={<AdminHome />} />
         <Route path="home" element={<AdminHome/>}/>
-        <Route path="premiers" element={<AdminPremiers/>}/>
+        <Route path="premier" element={<AdminPremiers/>}/>
         <Route path={`${ubi}/add`} element={<Add typeContent={ubi}/>}/>
         <Route path={`${ubi}/remove`} element={<Remove/>}/>
         <Route path={`${ubi}/update`} element={<Update/>}/>
-        <Route path="movies" element={<AdminMovies/>}/>
-        <Route path="series" element={<AdminSeries/>}/>
-        <Route path="animes" element={<AdminAnimes/>}/>
+        <Route path="movie" element={<AdminMovies/>}/>
+        <Route path="serie" element={<AdminSeries/>}/>
+        <Route path="anime" element={<AdminAnimes/>}/>
       </Route>
       <Route path="recoveryPassword/*" element={<PasswordRecovered/>}/>
       <Route path="recoveryPassword" element={<RecoveryPassword/>}/>

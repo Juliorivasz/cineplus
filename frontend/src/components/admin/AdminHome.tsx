@@ -29,10 +29,10 @@ export const AdminHome = () => {
       <h1><p>{`Welcome, ${name}`}</p></h1>
       <hr />
       <ol style={{display: 'flex', justifyContent:'space-evenly', alignItems: 'center', flexWrap:'wrap'}}>
-        <ButtonRoutes typeContent="Premiers"/>
-        <ButtonRoutes typeContent="Movies"/>
-        <ButtonRoutes typeContent="Series"/>
-        <ButtonRoutes typeContent="Animes"/>
+        <ButtonRoutes typeContent="Premier"/>
+        <ButtonRoutes typeContent="Movie"/>
+        <ButtonRoutes typeContent="Serie"/>
+        <ButtonRoutes typeContent="Anime"/>
       </ol>
       <VisitPage/>
     </main>
