@@ -3,19 +3,19 @@ interface ButtonRoutesProps {
 }
 
 interface routesPage {
-    Premiers: string;
-    Movies: string;
-    Series: string;
-    Animes: string;
+    Premier: string;
+    Movie: string;
+    Serie: string;
+    Anime: string;
     [key:string]: string;
 }
 export const ButtonRoutes = ({typeContent}:ButtonRoutesProps) => {
 
     const routePage: routesPage = {
-        'Premiers':'premiers',
-        'Movies':'movies',
-        'Series':'series',
-        'Animes':'animes',
+        'Premier':'premier',
+        'Movie':'movie',
+        'Serie':'serie',
+        'Anime':'anime',
     }
 
     const urlContent = () => {

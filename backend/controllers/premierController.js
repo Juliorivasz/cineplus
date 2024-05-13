@@ -1,4 +1,5 @@
 const Premier = require("../models/premier");
+const upload = require("../middleware/multerMiddleware");
 
 module.exports = {
   // obtiene los estrenos
@@ -64,10 +65,21 @@ module.exports = {
       // agrega la ruta de la imagen a su campo
       const imagePath = req.file ? req.file.path : null;
 
+      console.log(title,
+        imagePath,
+        year,
+        gender,
+        synopsis,
+        cast,
+        duration,
+        playback,
+        trailer,
+        typeContent,)
+
       // valida que ningun campo este vacio
       if (
         !title ||
-        !image ||
+        !imagePath ||
         !year ||
         !gender ||
         !synopsis ||
@@ -79,7 +91,7 @@ module.exports = {
       ) {
         return res
           .status(400)
-          .json({ message: "un campo esta vacio o no ha sido definido" });
+          .json({ message: `un campo esta vacio o no ha sido definido` });
       }
 
       // guarda el estreno en la BD
@@ -102,7 +114,7 @@ module.exports = {
       res.status(201).json(newPremier);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Error en el servidor." });
+      res.status(500).json({ message: "Error en el servidor no se que fue." });
     }
   },
 

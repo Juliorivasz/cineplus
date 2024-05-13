@@ -31,7 +31,7 @@ const premiersSchema = new mongoose.Schema({
     required: true,
   },
   playback: {
-    type: Object,
+    type: String,
     required: true,
   },
   trailer: {

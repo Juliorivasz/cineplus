@@ -1,7 +1,4 @@
-import { EventType, set } from "firebase/database";
-import React, { FormEventHandler, useState } from "react";
-import { Form } from "react-router-dom";
-
+import React, { useState } from "react";
 
 interface TypeContent {
   typeContent: string;
@@ -42,14 +39,15 @@ export const Add = ({typeContent}:TypeContent) => {
   // const [duration, setDuration] = useState('');
   // const [playback, setPlayback] = useState('');
   const [formValues, setFormValues] = useState<{
-    title: "",
+    title: string,
     image: File | null,
-    year: "",
-    gender: "",
-    synopsis: "",
-    cast: "",
-    duration: "",
-    playback: string
+    year: string,
+    gender: string,
+    synopsis: string,
+    cast: string,
+    duration: string,
+    playback: string,
+    trailer: string
   }>({
     title: "",
     image: null,
@@ -58,9 +56,9 @@ export const Add = ({typeContent}:TypeContent) => {
     synopsis: "",
     cast: "",
     duration: "",
-    playback: dataDefault
+    playback: dataDefault,
+    trailer: ""
   });
-
 
   const handleInputChange = (event:React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => {
     const { name, value, files } = event.target;
@@ -81,7 +79,7 @@ export const Add = ({typeContent}:TypeContent) => {
 
   const sendData = async (e:React.FormEvent) => {
       e.preventDefault();
-      const {title,image,year,gender,synopsis,cast,duration,playback} = formValues;
+      const {title,image,year,gender,synopsis,cast,duration,playback, trailer} = formValues;
       const formData = new FormData();
       formData.append("title",title);
       if (image != null) formData.append("image", image);
@@ -91,14 +89,13 @@ export const Add = ({typeContent}:TypeContent) => {
       formData.append("cast", cast);
       formData.append("duration", duration);
       formData.append("playback", playback);
+      formData.append("trailer", trailer);
+      formData.append("typeContent",typeContent);
 
-
+      console.log(typeContent)
       try {
         const response = await fetch(`http://localhost:3000/${typeContent}/add`,{
           method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
           body: formData,
         });
 
@@ -170,7 +167,10 @@ export const Add = ({typeContent}:TypeContent) => {
           <div className="mb-3 text-start">
             <label htmlFor="jsonContent" className="form-label">Reproducion:</label>
             <input className="form-control" type="text" placeholder="Ingresa el json con los servidores" aria-label="json" id="jsonContent" defaultValue={dataDefault} name="playback" onChange={handleInputChange} />
-
+          </div>
+          <div className="mb-3 text-start">
+            <label htmlFor="trailerContent" className="form-label">Trailer:</label>
+            <input className="form-control" type="text" placeholder="Ingresa el link del trailer ej: https://www.youtube.com/id" aria-label="trailer" id="trailerContent" name="trailer" onChange={handleInputChange} />
           </div>
           <div className="mb-3">
             <button type="submit" className="btn btn-outline-dark m-3" id="send">Enviar</button>
