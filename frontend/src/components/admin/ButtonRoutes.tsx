@@ -3,7 +3,7 @@ interface ButtonRoutesProps {
 }
 
 interface routesPage {
-    Premier: string;
+    Premiere: string;
     Movie: string;
     Serie: string;
     Anime: string;
@@ -12,7 +12,7 @@ interface routesPage {
 export const ButtonRoutes = ({typeContent}:ButtonRoutesProps) => {
 
     const routePage: routesPage = {
-        'Premier':'premier',
+        'Premiere':'premiere',
         'Movie':'movie',
         'Serie':'serie',
         'Anime':'anime',

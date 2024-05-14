@@ -31,7 +31,8 @@ export const Add = ({typeContent}:TypeContent) => {
 
   // const [initialState, setInitialState] = useState(initialData);
   // const [title, setTitle] = useState('');
-  // const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
+  const [fullscreen, setFullscreen] = useState<boolean>(false);
   // const [year, setYear] = useState('');
   // const [gender, setGender] = useState('');
   // const [synopsis, setSynopsis] = useState('');
@@ -69,6 +70,19 @@ export const Add = ({typeContent}:TypeContent) => {
         ...prevValues,
         [name]: selectedImage,
       }));
+      if (selectedImage) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result;
+          if (typeof result === 'string') {
+            setImage(result);
+          }
+        };
+        reader.readAsDataURL(selectedImage);
+        console.log(image)
+      } else {
+        setImage(null);
+      }
     } else {
       setFormValues((prevValues) => ({
         ...prevValues,
@@ -107,6 +121,10 @@ export const Add = ({typeContent}:TypeContent) => {
       }
     }
 
+    const handleImageClick = () => {
+      setFullscreen(!fullscreen);
+    };
+
   return (
     <>
     <main>
@@ -119,6 +137,9 @@ export const Add = ({typeContent}:TypeContent) => {
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="formFile" className="form-label">Imagen de la pelicula:</label>
+            {image ? (
+                <img src={image} className="form-control m-2" style={{ maxWidth: '200px', maxHeight: '200px' }} alt="Vista previa de la imagen" onClick={handleImageClick}  />
+              ): <></>}
             <input className="form-control" type="file" id="formFile" name="image" onChange={handleInputChange}/>
           </div>
           <div className="mb-3 text-start">
