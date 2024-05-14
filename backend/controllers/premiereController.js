@@ -1,39 +1,39 @@
-const Premier = require("../models/premier");
+const Premiere = require("../models/premiere");
 const upload = require("../middleware/multerMiddleware");
 
 module.exports = {
   // obtiene los estrenos
-  getPremiers: async (req, res, next) => {
+  getPremieres: async (req, res, next) => {
     try {
-      const premiers = await Premier.find();
-      const premiersLength = premiers.length;
-      const queryPremier = req.query.id;
+      const premieres = await Premiere.find();
+      const premieresLength = premieres.length;
+      const queryPremiere = req.query.id;
       // Si se proporciona un ID, devuelve la información específica
-      if (queryPremier) {
-        const premier = premiers.find((item) => {
+      if (queryPremiere) {
+        const premiere = premieres.find((item) => {
           if (
-            item._id === queryPremier ||
-            item.gender === queryPremier ||
-            item.year.toString() === queryPremier
+            item._id === queryPremiere ||
+            item.gender === queryPremiere ||
+            item.year.toString() === queryPremiere
           ) {
             return item;
           }
         });
-        if (premier) {
-          res.json(premier);
+        if (premiere) {
+          res.json(premiere);
         } else {
           res.status(404).send("Estreno no encontrado");
         }
       } else {
         // Si no se proporciona un ID, devuelve toda la lista
-        res.json({ premiersLength, premiers });
+        res.json({ premieresLength, premieres });
       }
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
   },
-  addPremier: async (req, res, next) => {
+  addPremiere: async (req, res, next) => {
     try {
       // Utiliz una promesa para manejar el middleware
       const multerPromise = new Promise((resolve, reject) => {
@@ -65,17 +65,6 @@ module.exports = {
       // agrega la ruta de la imagen a su campo
       const imagePath = req.file ? req.file.path : null;
 
-      console.log(title,
-        imagePath,
-        year,
-        gender,
-        synopsis,
-        cast,
-        duration,
-        playback,
-        trailer,
-        typeContent,)
-
       // valida que ningun campo este vacio
       if (
         !title ||
@@ -91,11 +80,20 @@ module.exports = {
       ) {
         return res
           .status(400)
-          .json({ message: `un campo esta vacio o no ha sido definido` });
+          .json({ message: `un campo esta vacio o no ha sido definido title: ${title},
+          imagePath: ${imagePath},
+          year: ${year},
+          gender: ${gender},
+          synopsis: ${synopsis},
+          cast: ${cast},
+          duration: ${duration},
+          playback: ${playback},
+          trailer: ${trailer},
+          typeContent: ${typeContent}` });
       }
 
       // guarda el estreno en la BD
-      const newPremier = await Premier.create({
+      const newPremiere = await Premiere.create({
         title,
         image: imagePath,
         year,
@@ -108,10 +106,10 @@ module.exports = {
         typeContent,
       });
 
-      await newPremier.save();
+      await newPremiere.save();
 
       // envia el estreno
-      res.status(201).json(newPremier);
+      res.status(201).json(newPremiere);
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Error en el servidor no se que fue." });
@@ -119,18 +117,18 @@ module.exports = {
   },
 
   // elimina el estreno
-  removePremier: async (req, res, next) => {
+  removePremiere: async (req, res, next) => {
     try {
       // guarda el id en la variable
-      const { queryPremier } = req.body;
+      const { queryPremiere } = req.body;
 
       // valida que el campo no este vacio
-      if (!queryPremier) {
+      if (!queryPremiere) {
         return res.status(400).json({ message: "el campo id es requerido" });
       }
 
       // busca y elimina el documento por su ID
-      const result = await Premier.findOneAndDelete(queryPremier);
+      const result = await Premiere.findOneAndDelete(queryPremiere);
 
       // valida si no encontro el documento
       if (!result) {
@@ -151,7 +149,7 @@ module.exports = {
       res.status(500).json({ message: "Error en el servidor." });
     }
   },
-  updatePremier: async (req, res) => {
+  updatePremiere: async (req, res) => {
     try {
       // id pasado por query
       const { id } = req.query;
@@ -204,7 +202,7 @@ module.exports = {
           .json({ message: "Ningún campo para actualizar" });
       }
       // actualiza el documento
-      const premierUpdated = await Premier.updateOne(idUpdatePremier, {
+      const premiereUpdated = await Premiere.updateOne(idUpdatePremier, {
         $set: filteredFields,
       });
 

@@ -1,7 +1,7 @@
 // models/premiers
 const mongoose = require("mongoose");
 
-const premiersSchema = new mongoose.Schema({
+const premieresSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -44,6 +44,6 @@ const premiersSchema = new mongoose.Schema({
   },
 });
 
-const Premier = mongoose.model("premiers", premiersSchema);
+const Premiere = mongoose.model("premieres", premieresSchema);
 
-module.exports = Premier;
+module.exports = Premiere;
