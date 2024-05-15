@@ -25,7 +25,7 @@ export const AdminRoutes = () => {
       <Route path="/*" element={<PrivateRoute isAuthenticated={isAuthenticated}/>}>
         <Route index element={<AdminHome />} />
         <Route path="home" element={<AdminHome/>}/>
-        <Route path="premiere" element={<AdminPremiers/>}/>
+        <Route path="premiere" element={<AdminPremiers typeContent={ubi}/>}/>
         <Route path={`${ubi}/add`} element={<Add typeContent={ubi}/>}/>
         <Route path={`${ubi}/remove`} element={<Remove/>}/>
         <Route path={`${ubi}/update`} element={<Update/>}/>

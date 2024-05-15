@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BasicSpeedDial from '../../BasicSpeedDial';
 
 interface TypeContent {
   typeContent: string;
@@ -79,7 +80,6 @@ export const Add = ({typeContent}:TypeContent) => {
           }
         };
         reader.readAsDataURL(selectedImage);
-        console.log(image)
       } else {
         setImage(null);
       }
@@ -113,7 +113,8 @@ export const Add = ({typeContent}:TypeContent) => {
           body: formData,
         });
 
-        const result = await response;
+        const result = await response.json();
+        console.log(result);
         if (result.ok) console.log(result)
         
       } catch (error) {
@@ -137,10 +138,10 @@ export const Add = ({typeContent}:TypeContent) => {
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="formFile" className="form-label">Imagen de la pelicula:</label>
+            <input className="form-control" type="file" id="formFile" name="image" onChange={handleInputChange}/>
             {image ? (
                 <img src={image} className="form-control m-2" style={{ maxWidth: '200px', maxHeight: '200px' }} alt="Vista previa de la imagen" onClick={handleImageClick}  />
               ): <></>}
-            <input className="form-control" type="file" id="formFile" name="image" onChange={handleInputChange}/>
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="yeartContent" className="form-label">Año:</label>
@@ -187,7 +188,7 @@ export const Add = ({typeContent}:TypeContent) => {
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="jsonContent" className="form-label">Reproducion:</label>
-            <input className="form-control" type="text" placeholder="Ingresa el json con los servidores" aria-label="json" id="jsonContent" defaultValue={dataDefault} name="playback" onChange={handleInputChange} />
+            <textarea className="form-control" placeholder="Ingresa el json con los servidores" aria-label="json" id="jsonContent" defaultValue={dataDefault} rows={10} cols={50} name="playback" onChange={handleInputChange} />
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="trailerContent" className="form-label">Trailer:</label>
@@ -197,6 +198,9 @@ export const Add = ({typeContent}:TypeContent) => {
             <button type="submit" className="btn btn-outline-dark m-3" id="send">Enviar</button>
           </div>
         </form>
+      </div>
+      <div style={{position: "fixed", bottom:"5vh", right: "2vw", zIndex:"2"}}>
+        <BasicSpeedDial typeContent={typeContent}/>
       </div>
     </main>
     </>
