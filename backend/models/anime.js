@@ -11,7 +11,7 @@ const animeSchema = new mongoose.Schema({
     required: true,
   },
   year: {
-    type: Number,
+    type: String,
     required: true,
   },
   gender: {
@@ -27,11 +27,11 @@ const animeSchema = new mongoose.Schema({
     required: false,
   },
   duration: {
-    type: Number,
+    type: String,
     required: true,
   },
   playback: {
-    type: Object,
+    type: String,
     required: true,
   },
   trailer: {

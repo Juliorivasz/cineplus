@@ -100,7 +100,7 @@ module.exports = {
         typeContent,
       });
       // envia el estreno
-      res.status(201).json(newAnime);
+      res.status(201).json({message: `Anime: ${title} registrado`, saved: true});
     } catch (error) {
       // Verifica si es un error del middleware y lo maneja
       if (error.message === "El archivo ya existe. No se permite la carga.") {

@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const directorioDestino = path.resolve(__dirname, "../../uploads/");
+    const directorioDestino = path.resolve(__dirname, "../uploads/");
     cb(null, directorioDestino);
   },
   filename: function (req, file, cb) {
@@ -19,7 +19,7 @@ const upload = multer({
     const nombreArchivo = `cineplus-${file.originalname}`;
     const rutaArchivo = path.resolve(
       __dirname,
-      "../../uploads/",
+      "../uploads",
       nombreArchivo
     );
 
