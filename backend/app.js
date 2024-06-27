@@ -13,7 +13,7 @@ app.use(
   cors({
     origin: "http://localhost:5173", // Reemplaza con el dominio de tu aplicación frontend
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // Habilita el envío de cookies de autenticación (si las usas)
+    credentials: true, // Habilita el envío de cookies de autenticación
   })
 );
 app.use(routes);

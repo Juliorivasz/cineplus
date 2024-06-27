@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BasicSpeedDial from "../BasicSpeedDial";
 import FolderList from '../FolderList';
+import useGetContent from "../../hooks/useGetContent";
 
 interface TypeContent {
   typeContent: string;
@@ -14,7 +15,19 @@ export const AdminPremiers = ({typeContent}:TypeContent) => {
     avatar:""
   }
 
+  const {getContent} = useGetContent();
 
+  
+
+  useEffect(() => {
+    const T = async () => {
+      const d = await getContent(typeContent);
+      // cantidad de datos
+      setAmount(d?.info.premieresLength);
+    }
+    T();
+  },[typeContent,amount,getContent])
+  
   return (
     <>
       <main>

@@ -29,7 +29,7 @@ const upload = multer({
         cb(null, true);
       } else {
         // El archivo ya existe, no permitir la carga
-        cb(new Error("El archivo ya existe. No se permite la carga."));
+        cb(new Error("Ya se encuentra una imagen con ese nombre. No se permite la carga."));
       }
     });
   },

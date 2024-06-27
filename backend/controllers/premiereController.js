@@ -112,7 +112,7 @@ module.exports = {
       res.status(201).json(newPremiere);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Error en el servidor no se que fue." });
+      res.status(500).json({ message: error.message });
     }
   },
 
