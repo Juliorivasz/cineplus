@@ -1,17 +1,22 @@
+import { useEffect, useState } from "react";
+import { getContent } from "../helpers/getContent";
 
-const useGetContent = () => {
-    const getContent = async (typeContent:string) => {
-        try {
-            const response = await fetch(`http://localhost:3000/${typeContent}`);
-            if(!response.ok) throw new Error("No se pudo obtener los datos");
-            const info = await response.json();
-            return {info, state: true};
-        } catch (error) {
-            console.error(error)
+const useGetContent = (typeContent:string) => {
+    const [data,setData] = useState([]);
+
+    
+    useEffect(
+        () => {
+            const getDataContent = async () => {
+                const content = await getContent(typeContent);
+                setData(content?.datas.premieres);
+            }
+            getDataContent();
         }
-    }
+    ,[typeContent])
+    
 
-  return {getContent}
+  return {data}
 }
 
 export default useGetContent;

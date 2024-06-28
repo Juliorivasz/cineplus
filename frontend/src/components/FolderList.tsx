@@ -4,11 +4,11 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
-interface PremiereExisting {
-    data: object,
-}
+export default function FolderList({content}) {
 
-export default function FolderList({data}:PremiereExisting) {
+  const {id, title, image, year} = content;
+  console.log(title)
+
 
   return (
     <List sx={{ width: '100%', bgcolor: 'darkgray', color:"white", borderRadius:".3em", overflow:"auto",position: 'relative',

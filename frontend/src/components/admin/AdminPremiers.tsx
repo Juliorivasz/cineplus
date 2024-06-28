@@ -9,24 +9,14 @@ interface TypeContent {
 
 export const AdminPremiers = ({typeContent}:TypeContent) => {
   const [amount, setAmount] = useState(0);
-  const data = {
-    image:"",
-    date:"",
-    avatar:""
-  }
-
-  const {getContent} = useGetContent();
-
+  const {data} = useGetContent(typeContent);  
   
-
   useEffect(() => {
-    const T = async () => {
-      const d = await getContent(typeContent);
-      // cantidad de datos
-      setAmount(d?.info.premieresLength);
+    const sizeContent = async () => {
+      setAmount(data.length)
     }
-    T();
-  },[typeContent,amount,getContent])
+    sizeContent();
+  },[data])
   
   return (
     <>
@@ -38,7 +28,11 @@ export const AdminPremiers = ({typeContent}:TypeContent) => {
             <p>existents</p>
           </div>
           <div style={{width: "50%", margin: "auto"}}>
-            <FolderList data={data}/>
+          {data.map((content, index) => (
+              <FolderList key={index}
+              content={content}
+              /> 
+          ))}
           </div>
         </div>
         <div style={{position: "fixed", bottom:"20vh", right: "15vw", zIndex:"2"}}>
