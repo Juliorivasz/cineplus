@@ -105,8 +105,7 @@ export const Add = ({typeContent}:TypeContent) => {
       formData.append("playback", playback);
       formData.append("trailer", trailer);
       formData.append("typeContent",typeContent);
-
-      console.log(typeContent)
+      
       try {
         const response = await fetch(`http://localhost:3000/${typeContent}/add`,{
           method: 'POST',

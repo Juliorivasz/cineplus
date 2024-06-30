@@ -3,7 +3,8 @@ const express = require("express");
 const dotenvConfig = require("./config/dotenv");
 const routes = require("./routes");
 const cors = require("cors");
-const path = require('path');
+const path = require("path");
+const upload = require("./middleware/multerMiddleware");
 
 const app = express();
 app.use(express.json());
@@ -17,5 +18,11 @@ app.use(
   })
 );
 app.use(routes);
+
+// Ruta para subir imágenes
+// app.post('/', upload.single('image'), (req, res) => {
+//   const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+//   res.json({ imageUrl: fileUrl });
+// });
 
 module.exports = app;

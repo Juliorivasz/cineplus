@@ -27,8 +27,8 @@ export const AdminPremiers = ({typeContent}:TypeContent) => {
             <h2>{amount}</h2>
             <p>existents</p>
           </div>
-          <div style={{width: "50%", margin: "auto"}}>
-          {data.map((content, index) => (
+          <div style={{width: "50%", margin: "auto", overflow:"auto", maxHeight:"300px"}}>
+          {data.map((content,index) => (
               <FolderList key={index}
               content={content}
               /> 

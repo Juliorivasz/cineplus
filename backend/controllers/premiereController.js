@@ -8,13 +8,14 @@ module.exports = {
       const premieres = await Premiere.find();
       const length = premieres.length;
       const queryPremiere = req.query.id;
+
       // Si se proporciona un ID, devuelve la información específica
       if (queryPremiere) {
         const premiere = premieres.find((item) => {
           if (
-            item._id === queryPremiere ||
-            item.gender === queryPremiere ||
-            item.year.toString() === queryPremiere
+            item._id.equals(queryPremiere) ||
+            item.gender.includes(queryPremiere) ||
+            item.year.toString().includes(queryPremiere)
           ) {
             return item;
           }
@@ -64,6 +65,8 @@ module.exports = {
 
       // agrega la ruta de la imagen a su campo
       const imagePath = req.file ? req.file.path : null;
+      //agrego una ruta publica
+      const imageUrl = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
 
       // valida que ningun campo este vacio
       if (
@@ -95,7 +98,7 @@ module.exports = {
       // guarda el estreno en la BD
       const newPremiere = await Premiere.create({
         title,
-        image: imagePath,
+        image: imageUrl,
         year,
         gender,
         synopsis,

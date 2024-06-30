@@ -4,10 +4,22 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
-export default function FolderList({content}) {
+interface Content {
+  title: string;
+  image: string;
+  year: string;
+}
 
-  const {id, title, image, year} = content;
-  console.log(title)
+interface FolderListProps {
+  content: Content;
+}
+
+export default function FolderList ({content}: FolderListProps) {
+
+  // desestructura el objeto
+  const {_id,title, image, year} = content;
+
+  console.log(_id)
 
 
   return (
@@ -15,24 +27,10 @@ export default function FolderList({content}) {
     maxHeight: "50vh" }}>
       <ListItem>
         <ListItemAvatar>
-          <Avatar src='../../julio.jpg'>
+          <Avatar alt={title} src={image}>
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-      </ListItem>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar src='../../julio.jpg'>
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Work" secondary="Jan 7, 2014" />
-      </ListItem>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar src='../../julio.jpg'>
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Vacation" secondary="July 20, 2014" />
+        <ListItemText primary={title} secondary={year} />
       </ListItem>
     </List>
   );
