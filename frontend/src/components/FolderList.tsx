@@ -3,35 +3,72 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import { useState } from 'react';
+import { ModalContent } from './ModalContent';
+import Radio from '@mui/material/Radio';
 
-interface Content {
+export interface Content {
+  _id: string;
   title: string;
   image: string;
   year: string;
+  gender: string;
+  synopsis: string;
+  cast: string;
+  duration: string;
 }
 
-interface FolderListProps {
+export interface FolderListProps {
   content: Content;
+  onSelect: (id: string) => void;
+  selectedContent: boolean;
 }
 
-export default function FolderList ({content}: FolderListProps) {
 
+export default function FolderList ({content, onSelect, selectedContent}: FolderListProps) {
+  
   // desestructura el objeto
-  const {_id,title, image, year} = content;
+  const {_id, title, image, year} = content;
 
-  console.log(_id)
+  const [open, setOpen] = useState(false);
+  
+  const openPreview = () => {
+    setOpen(true);
+  }
 
+  const handleSelect = () => {
+    onSelect(_id);
+    openPreview();
+  };
 
   return (
-    <List sx={{ width: '100%', bgcolor: 'darkgray', color:"white", borderRadius:".3em", overflow:"auto",position: 'relative',
-    maxHeight: "50vh" }}>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar alt={title} src={image}>
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={title} secondary={year} />
-      </ListItem>
-    </List>
+    <div>
+      <div onClick={handleSelect}>
+        <List sx={{ width: '100%', bgcolor: 'darkgray', color:"white", borderRadius:".3em", overflow:"auto",position: 'relative',
+        maxHeight: "50vh",'&:hover': {
+              bgcolor: 'lightgray',
+              color: 'black',
+              cursor:'pointer'
+            }}} onClick={handleSelect}>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar alt={title} src={image}>
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={title} secondary={year} />
+            <Radio
+                checked={selectedContent}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelect(_id);
+                }}
+                value={content._id}
+                color="primary"
+              />
+          </ListItem>
+        </List>
+      </div>
+      <ModalContent open={open} setOpen={setOpen} content={content}/>
+    </div>
   );
 }

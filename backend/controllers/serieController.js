@@ -12,9 +12,9 @@ module.exports = {
       if (querySeries) {
         const serie = series.find((item) => {
           if (
-            item._id.toString() === querySeries ||
-            item.gender === querySeries ||
-            item.year === querySeries
+            item._id.toString().includes(querySeries) ||
+            item.gender.includes(querySeries) ||
+            item.year.includes(querySeries)
           ) {
             return item;
           }
@@ -22,7 +22,7 @@ module.exports = {
         if (serie) {
           res.json(serie);
         } else {
-          res.status(404).send("Pelicula no encontrada");
+          res.status(404).send("Serie no encontrada");
         }
       } else {
         // Si no se proporciona un ID, devuelve toda la lista
@@ -67,6 +67,8 @@ module.exports = {
 
       // agrega la ruta de la imagen a su campo
       const imagePath = req.file ? req.file.path : null;
+      //agrego una ruta publica
+      const imageUrl = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
 
       // valida que ningun campo este vacio
       if (
@@ -89,7 +91,7 @@ module.exports = {
       // guarda el estreno en la BD
       const newSeries = await Series.create({
         title,
-        image: imagePath,
+        image: imageUrl,
         year,
         gender,
         synopsis,

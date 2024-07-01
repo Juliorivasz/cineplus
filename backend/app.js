@@ -19,10 +19,4 @@ app.use(
 );
 app.use(routes);
 
-// Ruta para subir imágenes
-// app.post('/', upload.single('image'), (req, res) => {
-//   const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-//   res.json({ imageUrl: fileUrl });
-// });
-
 module.exports = app;

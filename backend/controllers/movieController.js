@@ -12,9 +12,9 @@ module.exports = {
       if (queryMovie) {
         const movie = movies.find((item) => {
           if (
-            item._id.toString() === queryMovie ||
-            item.gender === queryMovie ||
-            item.year === queryMovie
+            item._id.toString().includes(queryMovie) ||
+            item.gender.includes(queryMovie) ||
+            item.year.includes(queryMovie)
           ) {
             return item;
           }
@@ -67,6 +67,8 @@ module.exports = {
 
       // agrega la ruta de la imagen a su campo
       const imagePath = req.file ? req.file.path : null;
+      //agrego una ruta publica
+      const imageUrl = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
 
       // valida que ningun campo este vacio
       if (
@@ -89,7 +91,7 @@ module.exports = {
       // guarda el estreno en la BD
       const newMovie = await Movie.create({
         title,
-        image: imagePath,
+        image: imageUrl,
         year,
         gender,
         synopsis,

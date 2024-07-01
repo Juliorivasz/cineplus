@@ -1,5 +1,7 @@
 const Premiere = require("../models/premiere");
 const upload = require("../middleware/multerMiddleware");
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   // obtiene los estrenos
@@ -13,9 +15,9 @@ module.exports = {
       if (queryPremiere) {
         const premiere = premieres.find((item) => {
           if (
-            item._id.equals(queryPremiere) ||
+            item._id.toString().includes(queryPremiere) ||
             item.gender.includes(queryPremiere) ||
-            item.year.toString().includes(queryPremiere)
+            item.year.includes(queryPremiere)
           ) {
             return item;
           }
@@ -120,25 +122,55 @@ module.exports = {
   },
 
   // elimina el estreno
-  removePremiere: async (req, res, next) => {
+  removePremiere: async (req, res) => {
     try {
       // guarda el id en la variable
-      const { queryPremiere } = req.body;
+      const queryPremiere = req.query.id;
 
       // valida que el campo no este vacio
       if (!queryPremiere) {
         return res.status(400).json({ message: "el campo id es requerido" });
       }
 
-      // busca y elimina el documento por su ID
-      const result = await Premiere.findOneAndDelete(queryPremiere);
+      // busca el documento por su ID antes de eliminarlo para obtener la ruta de la imagen
+      const premiere = await Premiere.findById(queryPremiere);
 
-      // valida si no encontro el documento
-      if (!result) {
+      // valida si no se encontró el documento
+      if (!premiere) {
         return res.status(404).json({
           message: "No se encontró el estreno con el ID proporcionado",
         });
       }
+      // Suponiendo que premiere.image contiene la ruta completa
+      const fullPath = premiere.image;
+
+      // Obtén solo el nombre del archivo
+      const fileName = path.basename(fullPath);
+      console.log(fileName)
+
+      // elimina la imagen del servidor si existe
+      if (premiere.image) {
+        const imagePath = path.join(__dirname, '..', 'uploads', fileName);
+
+      // verifica si el archivo existe antes de intentar eliminarlo
+      fs.access(imagePath, fs.constants.F_OK, (err) => {
+        if (!err) {
+          // elimina el archivo
+          fs.unlink(imagePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error al eliminar la imagen:", unlinkErr);
+            }
+          });
+        } else {
+            console.error("La imagen no existe:", err);
+          }
+        });
+      }
+
+      // busca y elimina el documento por su ID
+      const result = await Premiere.findOneAndDelete({ _id: queryPremiere });
+
+      console.log(result)
 
       // respuesta del documento eliminado
       res.status(200).json({ message: "Estreno eliminado exitosamente" });

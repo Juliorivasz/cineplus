@@ -12,9 +12,9 @@ module.exports = {
       if (queryAnime) {
         const anime = animes.find((item) => {
           if (
-            item._id.toString() === queryAnime ||
-            item.gender === queryAnime ||
-            item.year === queryAnime
+            item._id.toString().includes(queryAnime) ||
+            item.gender.includes(queryAnime) ||
+            item.year.includes(queryAnime)
           ) {
             return item;
           }
@@ -67,6 +67,8 @@ module.exports = {
 
       // agrega la ruta de la imagen a su campo
       const imagePath = req.file ? req.file.path : null;
+      //agrego una ruta publica
+      const imageUrl = req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null;
 
       // valida que ningun campo este vacio
       if (
@@ -89,7 +91,7 @@ module.exports = {
       // guarda el estreno en la BD
       const newAnime = await Anime.create({
         title,
-        image: imagePath,
+        image: imageUrl,
         year,
         gender,
         synopsis,

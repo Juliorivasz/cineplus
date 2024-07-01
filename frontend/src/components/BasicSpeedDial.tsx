@@ -8,7 +8,9 @@ import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import EditIcon from '@mui/icons-material/Edit';
 
 interface TC {
-  typeContent: string
+  typeContent: string;
+  selectedContentId: string | null;
+  onDelete: ( id:string ) => Promise<void>
 }
 
 const actions = [
