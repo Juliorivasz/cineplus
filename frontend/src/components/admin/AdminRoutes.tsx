@@ -10,7 +10,6 @@ import { AdminMovies } from "./AdminMovies";
 import { AdminSeries } from "./AdminSeries";
 import { AdminAnimes } from "./AdminAnimes";
 import { Add } from "./actions/Add";
-import { Remove } from "./actions/Remove";
 import { Update } from "./actions/Update";
 
 export const AdminRoutes = () => {
@@ -27,7 +26,6 @@ export const AdminRoutes = () => {
         <Route path="home" element={<AdminHome/>}/>
         <Route path="premiere" element={<AdminPremiers typeContent={ubi}/>}/>
         <Route path={`${ubi}/add`} element={<Add typeContent={ubi}/>}/>
-        <Route path={`${ubi}/remove`} element={<Remove/>}/>
         <Route path={`${ubi}/update`} element={<Update/>}/>
         <Route path="movie" element={<AdminMovies/>}/>
         <Route path="serie" element={<AdminSeries/>}/>

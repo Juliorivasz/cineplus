@@ -6,14 +6,7 @@ interface TypeContent {
 }
 
   // plantilla para cargar datos rapido usando json
-  const dataDefault = `{
-    "castellano": {
-      "okru": "https://www.ejemplo.com/okru-castellano"
-    },
-    "ingles": {
-      "okru": "https://www.ejemplo.com/okru-english"
-    }
-  }`;
+  const dataDefault = `[{"castellano": [{"okru":"https://www.ejemplo.com/okru-castellano"}]},{"ingles": [{"okru": "https://www.ejemplo.com/okru-english"}]}]`;
   
   
   // const initialData = {

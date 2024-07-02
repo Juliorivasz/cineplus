@@ -16,12 +16,14 @@ export interface Content {
   synopsis: string;
   cast: string;
   duration: string;
+  playback: string;
+  trailer: string;
 }
 
 export interface FolderListProps {
   content: Content;
   onSelect: (id: string) => void;
-  selectedContent: boolean;
+  selectedContent: string | null;
 }
 
 
@@ -43,7 +45,7 @@ export default function FolderList ({content, onSelect, selectedContent}: Folder
 
   return (
     <div>
-      <div onClick={handleSelect}>
+      <div onClick={handleSelect} style={{ background: selectedContent === _id ? 'lightblue' : 'darkgray' }}>
         <List sx={{ width: '100%', bgcolor: 'darkgray', color:"white", borderRadius:".3em", overflow:"auto",position: 'relative',
         maxHeight: "50vh",'&:hover': {
               bgcolor: 'lightgray',
@@ -57,7 +59,7 @@ export default function FolderList ({content, onSelect, selectedContent}: Folder
             </ListItemAvatar>
             <ListItemText primary={title} secondary={year} />
             <Radio
-                checked={selectedContent}
+                checked={selectedContent == _id}
                 onClick={(e) => {
                   e.stopPropagation();
                   onSelect(_id);

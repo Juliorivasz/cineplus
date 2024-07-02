@@ -10,9 +10,8 @@ interface TypeContent {
 
 export const AdminPremiers = ({typeContent}:TypeContent) => {
   const [amount, setAmount] = useState(0);
-  const {data} = useGetContent(typeContent);
+  const {data, refetch} = useGetContent(typeContent);
   const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
-  const [isSelect, setIsSelect] = useState<boolean>(false); 
 
   
   useEffect(() => {
@@ -23,19 +22,15 @@ export const AdminPremiers = ({typeContent}:TypeContent) => {
   },[data])
 
   const handleSelect = (id: string) => {
-    if (isSelect) setSelectedContentId("")
-    else {setSelectedContentId(id)}
-    setIsSelect(!isSelect);
+    setSelectedContentId(id === selectedContentId ? null : id);
   };
 
   const handleDelete = async (id: string) => {
     await deleteContent(typeContent, id);
     // Luego actualizas el estado local para reflejar la eliminación
-    setAmount(amount - 1);
     setSelectedContentId(null);
+    refetch();
   };
-
-  console.log(selectedContentId)
   
   return (
     <>
@@ -48,10 +43,11 @@ export const AdminPremiers = ({typeContent}:TypeContent) => {
           </div>
           <div style={{width: "50%", margin: "auto", overflow:"auto", maxHeight:"300px"}}>
           {data.map((content,index) => (
-              <FolderList key={index}
-              content={content}
-              onSelect={handleSelect}
-              selectedContent={isSelect}
+              <FolderList 
+                key={index}
+                content={content}
+                onSelect={handleSelect}
+                selectedContent={selectedContentId}
               /> 
           ))}
           </div>

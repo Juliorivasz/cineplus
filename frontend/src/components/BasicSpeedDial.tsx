@@ -9,8 +9,8 @@ import EditIcon from '@mui/icons-material/Edit';
 
 interface TC {
   typeContent: string;
-  selectedContentId: string | null;
-  onDelete: ( id:string ) => Promise<void>
+  selectedContentId?: string | null;
+  onDelete?: ( id:string ) => Promise<void>
 }
 
 const actions = [
@@ -23,7 +23,12 @@ const url = (name:string) => {
   location.href = name;
 }
 
-export default function BasicSpeedDial(props:TC) {
+export default function BasicSpeedDial({typeContent,selectedContentId, onDelete}:TC) {
+  const handleDelete = () => {
+    if (selectedContentId) {
+      if(onDelete) onDelete(selectedContentId);
+    }
+  };
   return (
     <Box sx={{ height: 0, transform: 'translateZ(0px)', flexGrow: 1 }}>
       <SpeedDial
@@ -38,13 +43,14 @@ export default function BasicSpeedDial(props:TC) {
             tooltipTitle={action.name}
             onClick={() => {
               if (action.name === 'Dashboard') {
-                url(`/admin/${props.typeContent}`);
+                url(`/admin/${typeContent}`);
               } else if (action.name === 'Add') {
-                url(`/admin/${props.typeContent}/add`);
+                url(`/admin/${typeContent}/add`);
               } else if (action.name === 'Delete') {
-                url(`/admin/${props.typeContent}/delete`);
+                //url(`/admin/${typeContent}/delete`);
+                handleDelete();
               } else if (action.name === 'Update') {
-                url(`/admin/${props.typeContent}/update`);
+                url(`/admin/${typeContent}/update`);
               }}}
           />
         ))}

@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getContent } from "../helpers/getContent";
 
 const useGetContent = (typeContent:string,identity:string="") => {
     const [data,setData] = useState([]);
 
+    const getDataContent = useCallback(async () => {
+        const content = await getContent(typeContent,identity);
+        setData(content?.datas.premieres);
+    },[typeContent, identity]);
     
     useEffect(
         () => {
-            const getDataContent = async () => {
-                const content = await getContent(typeContent,identity);
-                setData(content?.datas.premieres);
-            }
             getDataContent();
         }
-    ,[typeContent,identity])
+    ,[getDataContent])
     
 
-  return {data}
+  return {data, refetch: getDataContent}
 }
 
 export default useGetContent;
