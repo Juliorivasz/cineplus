@@ -9,7 +9,7 @@ interface TypeContent {
   typeContent: string;
 }
 
-export const AdminPremiers = ({typeContent}:TypeContent) => {
+export const AdminContents = ({typeContent}:TypeContent) => {
   const [amount, setAmount] = useState(0);
   const {data, refetch} = useGetContent(typeContent);
   const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
