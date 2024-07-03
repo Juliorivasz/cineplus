@@ -3,6 +3,7 @@ import BasicSpeedDial from "../BasicSpeedDial";
 import FolderList from '../FolderList';
 import useGetContent from "../../hooks/useGetContent";
 import { deleteContent } from "../../helpers/deleteContent";
+import { capitalizeText } from '../../helpers/capitalizeText';
 
 interface TypeContent {
   typeContent: string;
@@ -35,7 +36,7 @@ export const AdminPremiers = ({typeContent}:TypeContent) => {
   return (
     <>
       <main>
-        <h1>Premieres</h1>
+        <h1>{capitalizeText(typeContent)}</h1>
         <div style={{display: "flex", justifyContent:"space-evenly", margin: "2em 0"}}>
           <div style={{padding: "10%", background: "darkgray", borderRadius:".3em", width: "30%", margin:"0 1em"}}>
             <h2>{amount}</h2>

@@ -11,9 +11,9 @@ const router = express.Router();
 // ruta padre
 router.use("/", visitRoutes);
 router.use("/admin", userRoutes);
-router.use("/movie", movieRoutes);
-router.use("/premiere", premiereRoutes);
-router.use("/serie", serieRoutes);
-router.use("/anime", animeRoutes);
+router.use("/movies", movieRoutes);
+router.use("/premieres", premiereRoutes);
+router.use("/series", serieRoutes);
+router.use("/animes", animeRoutes);
 
 module.exports = router;

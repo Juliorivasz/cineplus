@@ -6,7 +6,7 @@ const useGetContent = (typeContent:string,identity:string="") => {
 
     const getDataContent = useCallback(async () => {
         const content = await getContent(typeContent,identity);
-        setData(content?.datas.premieres);
+        setData(content?.datas[typeContent]);
     },[typeContent, identity]);
     
     useEffect(
@@ -14,6 +14,7 @@ const useGetContent = (typeContent:string,identity:string="") => {
             getDataContent();
         }
     ,[getDataContent])
+
     
 
   return {data, refetch: getDataContent}
