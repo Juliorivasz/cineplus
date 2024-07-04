@@ -2,6 +2,7 @@ const Premiere = require("../models/premiere");
 const upload = require("../middleware/multerMiddleware");
 const fs = require('fs');
 const path = require('path');
+const authMidleware = require("../middleware/authMiddleware");
 
 module.exports = {
   // obtiene los estrenos
@@ -36,7 +37,9 @@ module.exports = {
       res.status(500).json({ message: "Error en el servidor." });
     }
   },
-  addPremiere: async (req, res, next) => {
+  addPremiere: [
+    authMiddleware, //Protege esta ruta con el middleware de autenticación
+    async (req, res, next) => {
     try {
       // Utiliz una promesa para manejar el middleware
       const multerPromise = new Promise((resolve, reject) => {
@@ -115,14 +118,17 @@ module.exports = {
 
       // envia el estreno
       res.status(201).json(newPremiere);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error.message });
+      } catch (error) {
+          console.log(error);
+          res.status(500).json({ message: error.message });
+      }
     }
-  },
+  ],
 
   // elimina el estreno
-  removePremiere: async (req, res) => {
+  removePremiere: [
+    authMiddleware, // Protege esta ruta con el middleware de autenticación 
+    async (req, res) => {
     try {
       // guarda el id en la variable
       const queryPremiere = req.query.id;
@@ -174,80 +180,85 @@ module.exports = {
 
       // respuesta del documento eliminado
       res.status(200).json({ message: "Estreno eliminado exitosamente" });
-    } catch (error) {
-      // Verifica si es un error del middleware y lo maneja
-      if (error.message === "El archivo ya existe. No se permite la carga.") {
-        return res.status(400).json({ message: error.message });
+      } catch (error) {
+          // Verifica si es un error del middleware y lo maneja
+          if (error.message === "El archivo ya existe. No se permite la carga.") {
+            return res.status(400).json({ message: error.message });
+          }
+    
+          console.error(error);
+          res.status(500).json({ message: "Error en el servidor." });
       }
-
-      console.error(error);
-      res.status(500).json({ message: "Error en el servidor." });
     }
-  },
-  updatePremiere: async (req, res) => {
-    try {
-      // id pasado por query
-      const { id } = req.query;
-      const idUpdatePremier = {
-        _id: id,
-      };
-
-      // desestructura los datos recibidos
-      const {
-        title,
-        image,
-        year,
-        gender,
-        synopsis,
-        cast,
-        duration,
-        playback,
-        trailer,
-        typeContent,
-      } = req.body;
-
-      // agrega la ruta de la imagen a su campo
-      const imagePath = req.file ? req.file.path : undefined;
-
-      // objeto que contiene todos los datos recibidos
-      const updatedFields = {
-        title,
-        image: imagePath,
-        year,
-        gender,
-        synopsis,
-        cast,
-        duration,
-        playback,
-        trailer,
-        typeContent,
-      };
-
-      // Filtra los campos para eliminar los indefinidos o vacíos
-      const filteredFields = Object.fromEntries(
-        Object.entries(updatedFields).filter(
-          ([key, value]) => value !== undefined && value !== ""
-        )
-      );
-
-      // valida que haya al menos un campo para actualizar
-      if (Object.keys(filteredFields).length === 0) {
-        return res
-          .status(400)
-          .json({ message: "Ningún campo para actualizar" });
+  ],
+    
+  updatePremiere: [
+    authMiddleware, // Protege esta ruta con el middleware de autenticación
+      async (req, res) => {
+      try {
+        // id pasado por query
+        const { id } = req.query;
+        const idUpdatePremier = {
+          _id: id,
+        };
+  
+        // desestructura los datos recibidos
+        const {
+          title,
+          image,
+          year,
+          gender,
+          synopsis,
+          cast,
+          duration,
+          playback,
+          trailer,
+          typeContent,
+        } = req.body;
+  
+        // agrega la ruta de la imagen a su campo
+        const imagePath = req.file ? req.file.path : undefined;
+  
+        // objeto que contiene todos los datos recibidos
+        const updatedFields = {
+          title,
+          image: imagePath,
+          year,
+          gender,
+          synopsis,
+          cast,
+          duration,
+          playback,
+          trailer,
+          typeContent,
+        };
+  
+        // Filtra los campos para eliminar los indefinidos o vacíos
+        const filteredFields = Object.fromEntries(
+          Object.entries(updatedFields).filter(
+            ([key, value]) => value !== undefined && value !== ""
+          )
+        );
+  
+        // valida que haya al menos un campo para actualizar
+        if (Object.keys(filteredFields).length === 0) {
+          return res
+            .status(400)
+            .json({ message: "Ningún campo para actualizar" });
+        }
+        // actualiza el documento
+        const premiereUpdated = await Premiere.updateOne(idUpdatePremier, {
+          $set: filteredFields,
+        });
+  
+        // devuelve una respuesta ok
+        res
+          .status(200)
+          .json({ message: "actualizado correctamente", state: true });
+      } catch (error) {
+          console.log(error);
+          res.status(500).json({ message: "Error en el servidor." });
+        }
       }
-      // actualiza el documento
-      const premiereUpdated = await Premiere.updateOne(idUpdatePremier, {
-        $set: filteredFields,
-      });
-
-      // devuelve una respuesta ok
-      res
-        .status(200)
-        .json({ message: "actualizado correctamente", state: true });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Error en el servidor." });
-    }
-  },
+    ],
 };
