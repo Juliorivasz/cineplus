@@ -38,7 +38,7 @@ module.exports = {
     }
   },
   addPremiere: [
-    authMiddleware, //Protege esta ruta con el middleware de autenticación
+    authMidleware, //Protege esta ruta con el middleware de autenticación
     async (req, res, next) => {
     try {
       // Utiliz una promesa para manejar el middleware
@@ -127,7 +127,7 @@ module.exports = {
 
   // elimina el estreno
   removePremiere: [
-    authMiddleware, // Protege esta ruta con el middleware de autenticación 
+    authMidleware, // Protege esta ruta con el middleware de autenticación 
     async (req, res) => {
     try {
       // guarda el id en la variable
@@ -193,7 +193,7 @@ module.exports = {
   ],
     
   updatePremiere: [
-    authMiddleware, // Protege esta ruta con el middleware de autenticación
+    authMidleware, // Protege esta ruta con el middleware de autenticación
       async (req, res) => {
       try {
         // id pasado por query

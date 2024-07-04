@@ -100,8 +100,12 @@ export const Add = ({typeContent}:TypeContent) => {
       formData.append("typeContent",typeContent);
       
       try {
+        const token = localStorage.getItem("authToken");
         const response = await fetch(`http://localhost:3000/${typeContent}/add`,{
           method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+        },
           body: formData,
         });
 
