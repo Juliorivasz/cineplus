@@ -4,6 +4,8 @@ import FolderList from '../FolderList';
 import useGetContent from "../../hooks/useGetContent";
 import { deleteContent } from "../../helpers/deleteContent";
 import { capitalizeText } from '../../helpers/capitalizeText';
+import BackButton from "../BackButton";
+import NoContent from './NoContent';
 
 interface TypeContent {
   typeContent: string;
@@ -37,11 +39,13 @@ export const AdminContents = ({typeContent}:TypeContent) => {
     <>
       <main>
         <h1>{capitalizeText(typeContent)}</h1>
+        <BackButton/>
         <div style={{display: "flex", justifyContent:"space-evenly", margin: "2em 0"}}>
           <div style={{padding: "10%", background: "darkgray", borderRadius:".3em", width: "30%", margin:"0 1em"}}>
             <h2>{amount}</h2>
             <p>existents</p>
           </div>
+          {amount ? (
           <div style={{width: "50%", margin: "auto", overflow:"auto", maxHeight:"300px"}}>
           {data.map((content,index) => (
               <FolderList 
@@ -52,6 +56,7 @@ export const AdminContents = ({typeContent}:TypeContent) => {
               /> 
           ))}
           </div>
+        ) : <NoContent message="No hay contenido existente"/>} 
         </div>
         <div style={{position: "fixed", bottom:"20vh", right: "15vw", zIndex:"2"}}>
           <BasicSpeedDial typeContent={typeContent} selectedContentId={selectedContentId} onDelete={handleDelete}/>

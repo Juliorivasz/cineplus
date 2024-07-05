@@ -73,35 +73,41 @@ module.exports = {
   // renovar tokens para mantener la sesion activa
   renewToken: async (req, res) => {
     try {
-      // Verifica si el usuario está autenticado (puedes ajustar esto según tu implementación)
       const tokenAuthCurrent = req.headers.authorization.replace("Bearer ", "");
-      const user = jwt.verify(tokenAuthCurrent, process.env.JWT_SECRET);
-
-      if (user) {
-        const sessionActiva = await Session.findOne({
-          userId: user.userId,
-          expiresAt: { $gt: new Date() }, // La sesión aún no ha expirado
-        });
-
-        if (sessionActiva) {
-          // Emite un nuevo token con un tiempo de expiración renovado
-          const nuevoToken = jwt.sign(
-            { userId: user.userId, email: user.email },
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" }
-          );
-
-          // Envía el nuevo token al cliente
-          res.status(200).json({ token: nuevoToken });
+      
+      // Verifica el token. Si el token ha expirado, lanzará un TokenExpiredError.
+      let user;
+      try {
+        user = jwt.verify(tokenAuthCurrent, process.env.JWT_SECRET);
+      } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+          // Si el token ha expirado, responde con un error 401
+          return res.status(401).json({ error: "Token expirado" });
         } else {
-          // Sesión no activa, responde con un error
-          res.status(401).json({ error: "Sesión expirada" });
+          // Para otros errores, responde con un error genérico
+          return res.status(500).json({ error: "Error interno del servidor" });
         }
+      }
+  
+      // Busca una sesión activa
+      const sessionActiva = await Session.findOne({
+        userId: user.userId,
+        expiresAt: { $gt: new Date() }, // La sesión aún no ha expirado
+      });
+  
+      if (sessionActiva) {
+        // Emite un nuevo token con un tiempo de expiración renovado
+        const nuevoToken = jwt.sign(
+          { userId: user.userId, email: user.email },
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
+  
+        // Envía el nuevo token al cliente
+        res.status(200).json({ token: nuevoToken });
       } else {
-        // Usuario no autenticado, responde con un error
-        res
-          .status(401)
-          .json({ error: "Usuario no autenticado. token vencido o erroneo" });
+        // Sesión no activa, responde con un error
+        res.status(401).json({ error: "Sesión expirada" });
       }
     } catch (error) {
       // Maneja errores

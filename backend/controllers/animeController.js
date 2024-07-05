@@ -1,6 +1,8 @@
 // controllers/animeController.js
 const upload = require("../middleware/multerMiddleware");
 const Anime = require("../models/anime");
+const authMiddleware = require("../middleware/authMiddleware");
+
 
 module.exports = {
   getAllAnimes: async (req, res, next) => {
@@ -35,7 +37,9 @@ module.exports = {
   },
 
   // agrega Anime
-  addAnime: async (req, res) => {
+  addAnime: [
+    authMiddleware,
+    async (req, res) => {
     try {
       // Utiliz una promesa para manejar el middleware
       const multerPromise = new Promise((resolve, reject) => {
@@ -112,9 +116,11 @@ module.exports = {
       console.error(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
-  },
+  }],
   // elimina Anime
-  removeAnime: async (req, res, next) => {
+  removeAnime: [
+    authMiddleware,
+    async (req, res, next) => {
     try {
       // guarda el id en la variable
       const { idAnime } = req.body;
@@ -145,9 +151,11 @@ module.exports = {
       console.error(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
-  },
+  }],
   // actualiza o modifica Anime
-  updateAnime: async (req, res) => {
+  updateAnime: [
+    authMiddleware,
+    async (req, res) => {
     try {
       // id pasado por query
       const { id } = req.query;
@@ -212,5 +220,5 @@ module.exports = {
       console.log(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
-  },
+  }],
 };

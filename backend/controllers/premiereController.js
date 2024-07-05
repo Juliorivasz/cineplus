@@ -2,7 +2,7 @@ const Premiere = require("../models/premiere");
 const upload = require("../middleware/multerMiddleware");
 const fs = require('fs');
 const path = require('path');
-const authMidleware = require("../middleware/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
 module.exports = {
   // obtiene los estrenos
@@ -38,7 +38,7 @@ module.exports = {
     }
   },
   addPremiere: [
-    authMidleware, //Protege esta ruta con el middleware de autenticación
+    authMiddleware, //Protege esta ruta con el middleware de autenticación
     async (req, res, next) => {
     try {
       // Utiliz una promesa para manejar el middleware
@@ -127,7 +127,7 @@ module.exports = {
 
   // elimina el estreno
   removePremiere: [
-    authMidleware, // Protege esta ruta con el middleware de autenticación 
+    authMiddleware, // Protege esta ruta con el middleware de autenticación 
     async (req, res) => {
     try {
       // guarda el id en la variable
@@ -193,7 +193,7 @@ module.exports = {
   ],
     
   updatePremiere: [
-    authMidleware, // Protege esta ruta con el middleware de autenticación
+    authMiddleware, // Protege esta ruta con el middleware de autenticación
       async (req, res) => {
       try {
         // id pasado por query

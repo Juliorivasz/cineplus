@@ -1,6 +1,8 @@
 // controllers/movieController.js
 const upload = require("../middleware/multerMiddleware");
 const Movie = require("../models/Movie");
+const authMiddleware = require("../middleware/authMiddleware");
+
 
 module.exports = {
   getAllMovies: async (req, res, next) => {
@@ -35,7 +37,9 @@ module.exports = {
   },
 
   // agrega pelicula
-  addMovie: async (req, res) => {
+  addMovie: [
+    authMiddleware,
+    async (req, res) => {
     try {
       // Utiliz una promesa para manejar el middleware
       const multerPromise = new Promise((resolve, reject) => {
@@ -112,9 +116,11 @@ module.exports = {
       console.error(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
-  },
+  }],
   // elimina pelicula
-  removeMovie: async (req, res, next) => {
+  removeMovie: [
+    authMiddleware,
+    async (req, res, next) => {
     try {
       // guarda el id en la variable
       const { idMovie } = req.body;
@@ -145,9 +151,11 @@ module.exports = {
       console.error(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
-  },
+  }],
   // actualiza o modifica pelicula
-  updateMovie: async (req, res) => {
+  updateMovie: [
+    authMiddleware,
+    async (req, res) => {
     try {
       // id pasado por query
       const { id } = req.query;
@@ -212,5 +220,5 @@ module.exports = {
       console.log(error);
       res.status(500).json({ message: "Error en el servidor." });
     }
-  },
+  }],
 };
