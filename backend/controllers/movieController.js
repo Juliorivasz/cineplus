@@ -1,6 +1,8 @@
 // controllers/movieController.js
-const upload = require("../middleware/multerMiddleware");
 const Movie = require("../models/Movie");
+const fs = require('fs');
+const upload = require("../middleware/multerMiddleware");
+const path = require('path');
 const authMiddleware = require("../middleware/authMiddleware");
 
 
@@ -105,6 +107,8 @@ module.exports = {
         trailer,
         typeContent,
       });
+
+      await newMovie.save();
       // envia el estreno
       res.status(201).json(newMovie);
     } catch (error) {
@@ -120,25 +124,57 @@ module.exports = {
   // elimina pelicula
   removeMovie: [
     authMiddleware,
-    async (req, res, next) => {
+    async (req, res) => {
     try {
       // guarda el id en la variable
-      const { idMovie } = req.body;
+      const idMovie = req.query.id;
+      console.log(idMovie)
 
       // valida que el campo no este vacio
       if (!idMovie) {
         return res.status(400).json({ message: "el campo id es requerido" });
       }
 
-      // busca y elimina el documento por su ID
-      const result = await Movie.findOneAndDelete(idMovie);
+      // busca el documento por su ID antes de eliminarlo para obtener la ruta de la imagen
+      const movie = await Movie.findById(idMovie);
 
       // valida si no encontro el documento
-      if (!result) {
+      if (!movie) {
         return res.status(404).json({
           message: "No se encontró la pelicula con el ID proporcionado",
         });
       }
+
+      // Suponiendo que movie.image contiene la ruta completa
+      const fullPath = movie.image;
+
+      // Obtén solo el nombre del archivo
+      const fileName = path.basename(fullPath);
+      console.log(fileName);
+
+      // elimina la imagen del servidor si existe
+      if (movie.image) {
+        const imagePath = path.join(__dirname, '..', 'uploads', fileName);
+
+      // verifica si el archivo existe antes de intentar eliminarlo
+      fs.access(imagePath, fs.constants.F_OK, (err) => {
+        if (!err) {
+          // elimina el archivo
+          fs.unlink(imagePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error al eliminar la imagen:", unlinkErr);
+            }
+          });
+        } else {
+            console.error("La imagen no existe:", err);
+          }
+        });
+      }
+
+      // busca y elimina el documento por su ID
+      const result = await Movie.findOneAndDelete(idMovie);
+
+      console.log(result);
 
       // respuesta del documento eliminado
       res.status(200).json({ message: "Pelicula eliminado exitosamente" });

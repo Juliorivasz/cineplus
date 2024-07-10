@@ -22,8 +22,8 @@ export const deleteContent = async (typeContent:string, identity:string="") => {
                 'Authorization': `Bearer ${token}`
               }
             });
-      
-            if (!retryResponse.ok) throw new Error("No se pudo eliminar el contenido");
+            
+            if (!retryResponse.ok) throw new Error("No se pudo eliminar el contenido de nuevo");
           }
          if(!response.ok) throw new Error("No se pudo eliminar el contenido");
         return true;

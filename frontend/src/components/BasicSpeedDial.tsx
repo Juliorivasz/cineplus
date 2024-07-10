@@ -6,6 +6,8 @@ import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import EditIcon from '@mui/icons-material/Edit';
+import MessageAlert from './MessageAlert';
+import { useState } from 'react';
 
 interface TC {
   typeContent: string;
@@ -24,9 +26,22 @@ const url = (name:string) => {
 }
 
 export default function BasicSpeedDial({typeContent,selectedContentId, onDelete}:TC) {
+  const [alertOpen, setAlertOpen] = useState(false);
+
+  const handleOpenAlert = () => {
+    setAlertOpen(true);
+  };
+
+  const handleCloseAlert = () => {
+    setAlertOpen(false);
+  };
+
+  // Elimina el contenido seleccionado, caso contrario muestra un mensaje de error
   const handleDelete = () => {
     if (selectedContentId) {
       if(onDelete) onDelete(selectedContentId);
+    }else {
+      handleOpenAlert();
     }
   };
   return (
@@ -55,6 +70,12 @@ export default function BasicSpeedDial({typeContent,selectedContentId, onDelete}
           />
         ))}
       </SpeedDial>
+      <MessageAlert
+        open={alertOpen}
+        onClose={handleCloseAlert}
+        title="Se produjo un error"
+        message="Por favor, seleccione un contenido"
+      />
     </Box>
   );
 }

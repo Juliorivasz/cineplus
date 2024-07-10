@@ -1,6 +1,6 @@
 const Premiere = require("../models/premiere");
-const upload = require("../middleware/multerMiddleware");
 const fs = require('fs');
+const upload = require("../middleware/multerMiddleware");
 const path = require('path');
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -176,7 +176,7 @@ module.exports = {
       // busca y elimina el documento por su ID
       const result = await Premiere.findOneAndDelete({ _id: queryPremiere });
 
-      console.log(result)
+      console.log(result);
 
       // respuesta del documento eliminado
       res.status(200).json({ message: "Estreno eliminado exitosamente" });
