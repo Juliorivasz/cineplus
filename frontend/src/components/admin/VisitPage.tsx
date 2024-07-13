@@ -20,7 +20,7 @@ export const VisitPage = () => {
         };
         handleVisit()
       }, []);
-
+      
     //formatea la fecha en un formato común global
     const formatDateString = (dateString: string): string => {
         const date = new Date(dateString);

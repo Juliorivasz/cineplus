@@ -30,7 +30,7 @@ export const AdminContents = ({typeContent}: TypeContent) => {
     if (amount === 0) {
       const timer = setTimeout(() => {
         setShowNoContent(true);
-      }, 2000);
+      }, 500);
       return () => clearTimeout(timer);
     } else {
       setShowNoContent(false);

@@ -88,16 +88,7 @@ module.exports = {
       ) {
         return res
           .status(400)
-          .json({ message: `un campo esta vacio o no ha sido definido title: ${title},
-          imagePath: ${imagePath},
-          year: ${year},
-          gender: ${gender},
-          synopsis: ${synopsis},
-          cast: ${cast},
-          duration: ${duration},
-          playback: ${playback},
-          trailer: ${trailer},
-          typeContent: ${typeContent}` });
+          .json({ message: `un campo esta vacio o no ha sido definido.` });
       }
 
       // guarda el estreno en la BD
