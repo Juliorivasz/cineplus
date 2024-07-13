@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import BasicSpeedDial from '../../BasicSpeedDial';
+import MessageAlert from "../../MessageAlert";
 
 interface TypeContent {
   typeContent: string;
@@ -8,31 +9,17 @@ interface TypeContent {
   // plantilla para cargar datos rapido usando json
   const dataDefault = `[{"castellano": [{"okru":"https://www.ejemplo.com/okru-castellano"}]},{"ingles": [{"okru": "https://www.ejemplo.com/okru-english"}]}]`;
   
-  
-  // const initialData = {
-  //   title: "",
-  //   image: "",
-  //   year: "",
-  //   gender: "",
-  //   synopsis: "",
-  //   cast: "",
-  //   duration: "",
-  //   playback: dataDefault
-  // }
 
 export const Add = ({typeContent}:TypeContent) => {
 
-
-  // const [initialState, setInitialState] = useState(initialData);
-  // const [title, setTitle] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [result, setResult] = useState({
+    "title": "",
+    "message": "",
+    "isOk": false
+  });
   const [image, setImage] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
-  // const [year, setYear] = useState('');
-  // const [gender, setGender] = useState('');
-  // const [synopsis, setSynopsis] = useState('');
-  // const [cast, setCast] = useState('');
-  // const [duration, setDuration] = useState('');
-  // const [playback, setPlayback] = useState('');
   const [formValues, setFormValues] = useState<{
     title: string,
     image: File | null,
@@ -84,6 +71,21 @@ export const Add = ({typeContent}:TypeContent) => {
     }
   };
 
+  const handleOpenAlert = (title: string, message: string, isOk:boolean) => {
+    setResult({
+      "title": title,
+      "message": message,
+      "isOk": isOk
+    })
+    setShowAlert(true);
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+    result.isOk ? location.pathname = `admin/${typeContent}`: null
+    return;
+  };
+
   const sendData = async (e:React.FormEvent) => {
       e.preventDefault();
       const {title,image,year,gender,synopsis,cast,duration,playback, trailer} = formValues;
@@ -110,17 +112,25 @@ export const Add = ({typeContent}:TypeContent) => {
         });
 
         const result = await response.json();
-        console.log(result);
-        if (result.ok) console.log(result)
+        
+        if (!response.ok) {
+          throw new Error(result.message)
+        }
+        
+        handleOpenAlert(`!Mision Cumplida!`, `Su carga ha sido completada satisfactoriamente`, true);
         
       } catch (error) {
-        console.log(`Error en la solicitud: ${error}`)
+         if (error instanceof Error) {
+           handleOpenAlert(`Ohh no, Ha ocurrido un error inesperado`, `${error.message}`,false);
+           console.error(error.message);
+         }
       }
     }
 
     const handleImageClick = () => {
       setFullscreen(!fullscreen);
     };
+
 
   return (
     <>
@@ -198,6 +208,11 @@ export const Add = ({typeContent}:TypeContent) => {
       <div style={{position: "fixed", bottom:"5vh", right: "2vw", zIndex:"2"}}>
         <BasicSpeedDial typeContent={typeContent}/>
       </div>
+      <MessageAlert 
+        open={showAlert}
+        title={result.title}
+        message={result.message}
+        onClose={handleCloseAlert} />
     </main>
     </>
   )

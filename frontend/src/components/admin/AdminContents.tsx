@@ -6,6 +6,7 @@ import { deleteContent } from "../../helpers/deleteContent";
 import { capitalizeText } from '../../helpers/capitalizeText';
 import BackButton from "../BackButton";
 import NoContent from './NoContent';
+import MessageAlert from "../MessageAlert";
 
 interface TypeContent {
   typeContent: string;
@@ -16,6 +17,7 @@ export const AdminContents = ({typeContent}: TypeContent) => {
   const { data, refetch } = useGetContent(typeContent);
   const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
   const [showNoContent, setShowNoContent] = useState(false);
+  const [alertResult, setAlertResult] = useState(false);
 
   useEffect(() => {
     const sizeContent = () => {
@@ -39,9 +41,17 @@ export const AdminContents = ({typeContent}: TypeContent) => {
     setSelectedContentId(id === selectedContentId ? null : id);
   };
 
+  const handleOpenAlert = () => {
+    setAlertResult(true);
+  };
+
+  const handleCloseAlert = () => {
+    setAlertResult(false);
+  };
+
   const handleDelete = async (id: string) => {
-    const response = await deleteContent(typeContent, id);
-    console.log(response);
+    await deleteContent(typeContent, id);
+    handleOpenAlert();
     // Luego actualizas el estado local para reflejar la eliminación
     setSelectedContentId(null);
     refetch();
@@ -73,6 +83,12 @@ export const AdminContents = ({typeContent}: TypeContent) => {
         <div style={{ position: "fixed", bottom: "20vh", right: "15vw", zIndex: "2" }}>
           <BasicSpeedDial typeContent={typeContent} selectedContentId={selectedContentId} onDelete={handleDelete} />
         </div>
+        <MessageAlert 
+          open={alertResult}
+          title="Eliminado"
+          message="Acabas de borrar un contenido"
+          onClose={handleCloseAlert}
+         />
       </main>
     </>
   )

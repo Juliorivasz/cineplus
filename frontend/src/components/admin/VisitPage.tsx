@@ -17,7 +17,6 @@ export const VisitPage = () => {
             const countAllVisit = visit.length;
             setVisitCount(countAllVisit);
             setVisitAll(visit.allVisit.reverse())
-            console.log(visit,visitAll)
         };
         handleVisit()
       }, []);

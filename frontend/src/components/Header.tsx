@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuthentication from "../hooks/useAutentication";
+import { SearchContent } from "./SearchContent";
 // import { useState } from 'react';
 
 export default function Header() {
@@ -22,10 +23,9 @@ export default function Header() {
         <nav className="navbar navbar-dark bg-dark fixed-top">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">CinePlus+</Link>
-            <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
-              <button className="btn btn-success" type="submit">Buscar</button>
-            </form>
+            {isAuthenticated && location.pathname.includes("/admin") ? 
+            null: 
+            (<SearchContent/>)}
             <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -47,7 +47,7 @@ export default function Header() {
                       Tipo de contenido
                     </a>
                     <ul className="dropdown-menu dropdown-menu-dark">
-                      <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/premiers" : "/estrenos"}>Estrenos</Link></li>
+                      <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/premieres" : "/estrenos"}>Estrenos</Link></li>
                       <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/movies" : "/movies"}>Peliculas</Link></li>
                       <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/series" :"/series"}>Series</Link></li>
                       <li><Link className="dropdown-item" to={isAuthenticated ? "/admin/animes" :"/anime"}>Anime</Link></li>

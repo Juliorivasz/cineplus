@@ -62,7 +62,6 @@ export default function BasicSpeedDial({typeContent,selectedContentId, onDelete}
               } else if (action.name === 'Add') {
                 url(`/admin/${typeContent}/add`);
               } else if (action.name === 'Delete') {
-                //url(`/admin/${typeContent}/delete`);
                 handleDelete();
               } else if (action.name === 'Update') {
                 url(`/admin/${typeContent}/update`);
