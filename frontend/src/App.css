@@ -46,6 +46,26 @@ main {
   padding: 2em;
 }
 
+.card:hover .card-img-top {
+  filter: brightness(50%);
+  cursor: pointer;
+}
+
+.card-img-top:hover + .card-body {
+  opacity: 1 !important;
+  background-color: transparent;
+  cursor: pointer;
+  transform: translateY(0%) !important;
+}
+
+.card-body:hover {
+  opacity: 1 !important;
+  background-color: transparent;
+  cursor: pointer;
+  transform: translateY(0%) !important;
+}
+
+
 .read-the-docs {
   color: #888;
 }

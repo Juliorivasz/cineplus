@@ -4,12 +4,15 @@ import Card_movie from './Card_movie';
 import { FilterFind } from './FilterFind';
 import { Pagination } from './Pagination';
 import { useState } from 'react';
+import { TypeContent } from './admin/AdminContents';
 
-export default function Premieres() {
+export default function Premieres({typeContent}:TypeContent) {
   const [currentPage, setcurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const {data} = useGetContent("premieres");
+  console.log()
+
+  const {data} = useGetContent(typeContent);
 
   console.log(data);
 

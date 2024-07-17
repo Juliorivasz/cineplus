@@ -8,7 +8,7 @@ import BackButton from "../BackButton";
 import NoContent from './NoContent';
 import MessageAlert from "../MessageAlert";
 
-interface TypeContent {
+export interface TypeContent {
   typeContent: string;
 }
 
