@@ -3,26 +3,15 @@ import { useMovieId } from "../hooks/useMovieId";
 import { MovieRelated } from "./MovieRelated";
 import { Player } from "./Player";
 
-const movieProps =  {
-    title: 'Avengers: End Game',
-    image: 'https://es.web.img2.acsta.net/pictures/19/03/26/17/22/0896830.jpg',
-    year: '2022',
-    gender: 'Accion, ciencia ficcion',
-    synopsis: 'Los vengadores aparecen para salvar el mundo de tanos un villano genocida, que solo busca la paz en su ideologia',
-    cast: 'robert jr, steve rogers, wanda, peter parker',
-    duration: '190min',
-}
-
-export const Movie = () => {
+export const ContentClient = () => {
   
   const {id, typeContent} = useMovieId()
-  const { data } = useGetContent("premieres", id);
+  const { data } = useGetContent(typeContent, id);
   if (!data || Array.isArray(data)) {
-    return <div>Loading...</div>; // Manejo de carga y estado nulo
+    return <div style={{fontSize: "10rem", marginTop: "140px"}}>Loading...</div>; // Manejo de carga y estado nulo
   }
   const {title, image, year, gender, synopsis, cast, duration} = data;
   console.log(data)
-
   return (
     <main>
         <div className="mb-3" style={{maxWidth: "1900px", paddingRight: "50%"}}>

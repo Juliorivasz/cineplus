@@ -9,10 +9,10 @@ export default function Card_movie({content}:CardProps) {
 
   const navigate = useNavigate();
 
-  const {_id, title, image, year, } = content;
+  const {_id, title, image, year, typeContent} = content;
 
   const viewContentDetail = () => {
-    navigate(`/movie?${_id}`);
+    navigate(`/content?${_id}-${typeContent}`);
   }
 
 

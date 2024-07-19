@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom"
 
 export const useMovieId = () => {
-    const id = useLocation().search.replace('?','').trim();
-    const typeContent = (location.pathname.split('/')[1])+'s';
+    const query = useLocation().search.replace('?','').trim();
+    const [id, typeContent] = query.split('-');
     return {id, typeContent};
 } 

@@ -10,8 +10,6 @@ export default function Premieres({typeContent}:TypeContent) {
   const [currentPage, setcurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  console.log()
-
   const {data} = useGetContent(typeContent);
 
   const handlePage = (newCurrentPage:number) => {

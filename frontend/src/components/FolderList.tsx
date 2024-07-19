@@ -18,6 +18,7 @@ export interface Content {
   duration?: string;
   playback?: string;
   trailer?: string;
+  typeContent?: string;
 }
 
 export interface FolderListProps {
