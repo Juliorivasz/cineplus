@@ -9,15 +9,15 @@ import Radio from '@mui/material/Radio';
 
 export interface Content {
   _id: string;
-  title: string;
-  image: string;
-  year: string;
-  gender: string;
-  synopsis: string;
-  cast: string;
-  duration: string;
-  playback: string;
-  trailer: string;
+  title?: string;
+  image?: string;
+  year?: string;
+  gender?: string;
+  synopsis?: string;
+  cast?: string;
+  duration?: string;
+  playback?: string;
+  trailer?: string;
 }
 
 export interface FolderListProps {

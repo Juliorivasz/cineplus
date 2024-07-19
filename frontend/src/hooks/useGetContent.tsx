@@ -1,12 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 import { getContent } from "../helpers/getContent";
+import { Content } from "../components/FolderList";
 
-const useGetContent = (typeContent:string,identity:string="") => {
-    const [data,setData] = useState([]);
+type ContentData = Content;
+type ContentDataArray = Content[];
 
+type ContentState = ContentData | ContentDataArray | null;
+
+const useGetContent = (typeContent:string,identity:string=""): { data: ContentState, refetch: () => void } => {
+    const [data,setData] = useState<ContentState>(null);
+
+    
     const getDataContent = useCallback(async () => {
         const content = await getContent(typeContent,identity);
-        setData(content?.datas[typeContent]);
+        
+        content?.datas[typeContent] == undefined ? setData(content?.datas): setData(content?.datas[typeContent]);
+
     },[typeContent, identity]);
     
     useEffect(

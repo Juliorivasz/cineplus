@@ -14,8 +14,6 @@ export default function Premieres({typeContent}:TypeContent) {
 
   const {data} = useGetContent(typeContent);
 
-  console.log(data);
-
   const handlePage = (newCurrentPage:number) => {
     setcurrentPage(newCurrentPage);
   }

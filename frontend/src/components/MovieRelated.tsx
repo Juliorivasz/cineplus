@@ -44,9 +44,9 @@ export const MovieRelated = () => {
         itemClass="image-item"
         responsive={responsive}
       >
-    {images.slice(0, 5).map(image => {
+    {images.slice(0, 5).map((image,id) => {
         return (
-          <Link to={"/movies"}><img key={1} src={image} style={{ width: "100%", height: "100%", padding: "0 1rem"}}/></Link>
+          <Link key={id} to={"/movies"}><img key={1} src={image} style={{ width: "100%", height: "100%", padding: "0 1rem"}}/></Link>
         );
       })}
 
