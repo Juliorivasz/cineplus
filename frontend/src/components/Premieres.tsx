@@ -25,7 +25,7 @@ export default function Premieres({typeContent}:TypeContent) {
     <>
     <main>
       <FilterFind />
-      <p className="title__content h1">Ultimos estrenos</p>
+      <p className="title__content h1">Ultimos Estrenos</p>
       <section className="contents">
         {paginatedData.map((premiere, index) => (
           <Card_movie
