@@ -18,8 +18,6 @@ const useGetContent = (typeContent:string,identity:string="") => {
         }
     ,[getDataContent])
 
-    
-
   return {data, refetch: getDataContent}
 }
 

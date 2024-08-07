@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import ContentList from './ContentList';
+import useGetAllContent from '../hooks/useGetAllContent';
 
 interface Content {
   id: string;
@@ -6,27 +8,33 @@ interface Content {
   // Añade otros campos según sea necesario
 }
 
-interface SearchContentProps {
-  contents: Content[];
-}
-
-export const SearchContent: React.FC<SearchContentProps> = ({ contents }) => {
+export const SearchContent = () => {
   const [query, setQuery] = useState('');
   const [filteredContents, setFilteredContents] = useState<Content[]>([]);
+  const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
+
+  const {data} = useGetAllContent();
+
+  console.log(data)
+
+  const handleSelect = (id: string) => {
+    setSelectedContentId(id === selectedContentId ? null : id);
+  };
 
   useEffect(() => {
     if (query) {
-      const results = contents.filter((content) =>
-        content.name.toLowerCase().includes(query.toLowerCase())
+      const results = data.filter((content) =>
+        content.title.toLowerCase().includes(query.toLowerCase())
       );
+      console.log(results)
       setFilteredContents(results);
     } else {
       setFilteredContents([]);
     }
-  }, [query, contents]);
+  }, [query, data]);
 
   return (
-    <>
+    <div style={{position: "relative"}}>
       <form className="d-flex" role="search" onSubmit={(e) => e.preventDefault()}>
         <input
           className="form-control me-2"
@@ -40,19 +48,34 @@ export const SearchContent: React.FC<SearchContentProps> = ({ contents }) => {
           Buscar
         </button>
       </form>
-
-      <div style={{ marginTop: '1em' }}>
+      <div style={{
+            listStyle: "none",
+            margin: "0",
+            padding: "0",
+            borderTop: "none",
+            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
+            backgroundColor: "#fefefe",
+            position: "absolute",
+            width: "100%",
+            maxHeight: "150px",
+            overflowY: "auto",
+            zIndex: "1000",
+          }}>
         {query && (
           filteredContents.length > 0 ? (
             filteredContents.map((content) => (
-              <div key={content.id}>{content.name}</div>
+              <div key={content._id} style={{
+                padding: "0",
+                cursor: "pointer",
+                transition: "background-color 0.2s",
+              }}>{<ContentList content={content} onSelect={handleSelect} selectedContent={selectedContentId}/>}</div>
             ))
           ) : (
-            <div>No encontrado</div>
+            <div style={{padding: "1rem"}}>No encontrado</div>
           )
         )}
       </div>
-    </>
+    </div>
   );
 };
 
